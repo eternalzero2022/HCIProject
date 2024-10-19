@@ -1,7 +1,9 @@
 package com.njuse.battlerankbackend.controller;
 
+import com.njuse.battlerankbackend.service.UserService;
 import com.njuse.battlerankbackend.vo.UserVO;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,19 +11,24 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @PostMapping("/register")
-    public ResponseEntity<Boolean> register(HttpSession session, @RequestBody UserVO user) {
+    @Autowired//自动装载
+    UserService userService;
 
-        return ResponseEntity.ok(true);
+    @PostMapping("/register")
+    public ResponseEntity<Boolean> register( @RequestBody UserVO user) {
+        Boolean result = userService.register(user);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Boolean> login(HttpSession session, @RequestBody UserVO user) {
-        return ResponseEntity.ok(true);
+    public ResponseEntity<Boolean> login(@RequestBody UserVO user) {
+        Boolean result = userService.login(user);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping()
     public ResponseEntity<UserVO> getUser(HttpSession session) {
         return ResponseEntity.ok((UserVO)session.getAttribute("user"));
     }
+
 }

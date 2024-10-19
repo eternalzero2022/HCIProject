@@ -2,6 +2,9 @@ package com.njuse.battlerankbackend.vo;
 
 import com.njuse.battlerankbackend.enums.Category;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 public class ItemVO {
