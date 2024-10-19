@@ -1,5 +1,6 @@
 package com.njuse.battlerankbackend.controller;
 
+import com.njuse.battlerankbackend.po.ItemPO;
 import com.njuse.battlerankbackend.service.CollectionService;
 import com.njuse.battlerankbackend.vo.CollectionVO;
 import com.njuse.battlerankbackend.vo.ItemVO;
@@ -20,12 +21,11 @@ public class CollectionController {
 
     @PostMapping()
     public ResponseEntity<Integer> creatCollection(
-            @RequestParam Integer collectionId,
             @RequestParam String collectionName,
             @RequestParam Integer creatorId,
-            @RequestParam List<ItemVO> items){
+            @RequestBody List<ItemVO> items){
         return ResponseEntity.ok(collectionService.creatCollection(
-                collectionId,collectionName,creatorId,items));
+                collectionName,creatorId,items));
     }
 
     @GetMapping("/{collectionId}")
@@ -33,8 +33,13 @@ public class CollectionController {
         return ResponseEntity.ok(collectionService.getCollection(collectionId));
     }
 
+    @GetMapping("/{collectionId}/items")
+    public ResponseEntity<List<ItemPO>> getCollectionItems(@RequestParam Integer collectionId){
+        return ResponseEntity.ok(collectionService.getCollectionItems(collectionId));
+    }
+
     @GetMapping()
-    public ResponseEntity<List<CollectionVO>> getCollectionList(@RequestBody String category){
+    public ResponseEntity<List<CollectionVO>> getCollectionList(@RequestParam String category){
         return ResponseEntity.ok(collectionService.getCollectionList(category));
     }
 

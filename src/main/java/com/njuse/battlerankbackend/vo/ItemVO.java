@@ -2,6 +2,7 @@ package com.njuse.battlerankbackend.vo;
 
 import com.njuse.battlerankbackend.enums.Category;
 import com.njuse.battlerankbackend.po.ItemPO;
+import jakarta.persistence.Embeddable;
 import lombok.Data;
 
 @Data

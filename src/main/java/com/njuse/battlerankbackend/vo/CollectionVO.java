@@ -17,17 +17,13 @@ public class CollectionVO {
     // ID of the creator of the collection
     private Integer createrId;
     // List of items included in this collection
-    private List<ItemVO> items = new ArrayList<>();
+    private List<ItemPO> items;
     public CollectionPO toPO(){
         CollectionPO collectionPO = new CollectionPO();
         collectionPO.setCollectionId(this.collectionId);
         collectionPO.setCollectionName(this.collectionName);
         collectionPO.setCreaterId(this.createrId);
-        List<ItemPO> new_items = new ArrayList<>();
-        for (int i = 0;i<items.size();i++){
-            new_items.add(items.get(i).toPO());
-        }
-        collectionPO.setItems(new_items);
+        collectionPO.setItems(items);
         return collectionPO;
     }
 }

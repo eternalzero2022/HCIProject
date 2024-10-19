@@ -13,4 +13,12 @@ public class SelfDefineException extends RuntimeException{
     public static SelfDefineException loginFaultPassword(){
         return new SelfDefineException("密码错误！");
     }
+
+    public static SelfDefineException creatCollectionFault1(){
+        return new SelfDefineException("您已经创建过同一个名字的帖子了哦~");
+    }
+
+    public static SelfDefineException getCollectionFault(){
+        return new SelfDefineException("您要找的合集找不到了呢~");
+    }
 }

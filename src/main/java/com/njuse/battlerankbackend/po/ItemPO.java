@@ -6,10 +6,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
-@Entity
+@Embeddable
 public class ItemPO {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id // key
+    @Basic
     @Column(name = "itemid")
     private Integer itemId;
 

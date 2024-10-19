@@ -29,27 +29,18 @@ public class CollectionPO {
     private  Integer createrId;
 
 
-    //@OneToMany: 在User实体中，@OneToMany注解表示一个用户可以有多个地址。
-    //mappedBy属性指定了Address实体中维护该关系的属性。
-    //@ManyToOne: 在Address实体中，@ManyToOne注解表示多个地址可以关联到一个用户。
-    //@JoinColumn注解用于定义外键。
-    //CascadeType和orphanRemoval: 你可以通过cascade属性设置级联操作。如果需要删除用户时，自动删除用户的地址，
-    // 可以使用orphanRemoval
-    @OneToMany(mappedBy = "collectionId",
-               cascade = CascadeType.ALL,
-               orphanRemoval = true)
-    private List<ItemPO> items = new ArrayList<>();
+    @ElementCollection  //表示使用容器作为属性（新建子表）
+    @CollectionTable(name = "itemRepository", //设置生成的子表名和外键列
+            joinColumns = @JoinColumn(name="cid"))
+    @Column(name = "item")
+    private List<ItemPO> items;//新建子表中嵌入Comment中的几条属性comment是embeddable的
 
     public CollectionVO toVO(){
         CollectionVO collectionVO = new CollectionVO();
         collectionVO.setCollectionId(this.collectionId);
         collectionVO.setCollectionName(this.collectionName);
         collectionVO.setCreaterId(this.createrId);
-        List<ItemVO> new_items = new ArrayList<>();
-        for (int i = 0;i<items.size();i++){
-            new_items.add(items.get(i).toVO());
-        }
-        collectionVO.setItems(new_items);
+        collectionVO.setItems(items);
         return collectionVO;
     }
 }
