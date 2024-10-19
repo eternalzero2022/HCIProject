@@ -10,7 +10,6 @@ class BattlerankBackendApplicationTests {
 	void contextLoads() {
 		assert (true);
 
-
 	}
 
 }
