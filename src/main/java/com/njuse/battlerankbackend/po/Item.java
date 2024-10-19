@@ -17,11 +17,6 @@ public class Item {
     private String itemName;
 
     @Basic
-    @Column
-    private Category category;
-
-    @Basic
-    @Column
     // The collection to which this item belongs
     private Integer collectionId;
 
@@ -44,7 +39,6 @@ public class Item {
         ItemVO itemVO = new ItemVO();
         itemVO.setItemId(this.itemId);
         itemVO.setItemName(this.itemName);
-        itemVO.setCategory(this.category);
         itemVO.setCollectionId(this.collectionId);
         itemVO.setWinRate(this.winRate);
         itemVO.setVoteCount(this.voteCount);

@@ -1,5 +1,6 @@
 package com.njuse.battlerankbackend.po;
 
+import com.njuse.battlerankbackend.enums.Category;
 import com.njuse.battlerankbackend.vo.CollectionVO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -26,6 +27,10 @@ public class CollectionPO {
     @Column
     private  Integer createrId;
 
+    @Basic
+    @Column
+    @Enumerated(EnumType.ORDINAL)
+    private Category category;
 
     @ElementCollection  //表示使用容器作为属性（新建子表）
     @CollectionTable(name = "itemRepository", //设置生成的子表名和外键列
@@ -38,6 +43,7 @@ public class CollectionPO {
         collectionVO.setCollectionId(this.collectionId);
         collectionVO.setCollectionName(this.collectionName);
         collectionVO.setCreaterId(this.createrId);
+        collectionVO.setCategory(this.category);
         collectionVO.setItems(items);
         return collectionVO;
     }

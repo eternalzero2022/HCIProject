@@ -1,6 +1,5 @@
 package com.njuse.battlerankbackend.vo;
 
-import com.njuse.battlerankbackend.enums.Category;
 import com.njuse.battlerankbackend.po.Item;
 import lombok.Data;
 
@@ -8,7 +7,6 @@ import lombok.Data;
 public class ItemVO {
     private Integer itemId;
     private String itemName;
-    private Category category;
     // The collection to which this item belongs
     private Integer collectionId;
     // The win rate of this item
@@ -22,7 +20,6 @@ public class ItemVO {
         Item item = new Item();
         item.setItemId(this.itemId);
         item.setItemName(this.itemName);
-        item.setCategory(this.category);
         item.setCollectionId(this.collectionId);
         item.setWinRate(this.winRate);
         item.setVoteCount(this.voteCount);
