@@ -9,6 +9,8 @@ class BattlerankBackendApplicationTests {
 	@Test
 	void contextLoads() {
 		assert (true);
+
+
 	}
 
 }
