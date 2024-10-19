@@ -2,7 +2,7 @@ package com.njuse.battlerankbackend.serviceImpl;
 
 import com.njuse.battlerankbackend.exception.SelfDefineException;
 import com.njuse.battlerankbackend.po.CollectionPO;
-import com.njuse.battlerankbackend.po.ItemPO;
+import com.njuse.battlerankbackend.po.Item;
 import com.njuse.battlerankbackend.repository.CollectionRepository;
 import com.njuse.battlerankbackend.service.CollectionService;
 import com.njuse.battlerankbackend.vo.CollectionVO;
@@ -35,8 +35,8 @@ public class CollectionServiceImp implements CollectionService {
         collectionRepository.save(newCollection);
 
         isAlreadyExist = collectionRepository.findByCollectionNameAndCreaterId(collectionName, creatorId);
-        List<ItemPO> itemPOS = isAlreadyExist.getItems();
-        if (itemPOS == null) itemPOS = new ArrayList<ItemPO>();
+        List<Item> itemPOS = isAlreadyExist.getItems();
+        if (itemPOS == null) itemPOS = new ArrayList<Item>();
         for (int i = 0;i<items.size();i++){
             itemPOS.add(items.get(i).toPO());
         }
@@ -55,7 +55,7 @@ public class CollectionServiceImp implements CollectionService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public List<ItemPO> getCollectionItems(Integer collectionId){
+    public List<Item> getCollectionItems(Integer collectionId){
         CollectionPO collection = collectionRepository.findByCollectionId(collectionId);
         return collection.getItems();
     }

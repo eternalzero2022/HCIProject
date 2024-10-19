@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Embeddable
-public class ItemPO {
+public class Item {
     @Basic
     @Column(name = "itemid")
     private Integer itemId;

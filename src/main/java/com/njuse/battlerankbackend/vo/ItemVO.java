@@ -1,8 +1,7 @@
 package com.njuse.battlerankbackend.vo;
 
 import com.njuse.battlerankbackend.enums.Category;
-import com.njuse.battlerankbackend.po.ItemPO;
-import jakarta.persistence.Embeddable;
+import com.njuse.battlerankbackend.po.Item;
 import lombok.Data;
 
 @Data
@@ -19,15 +18,15 @@ public class ItemVO {
     // Should be displayed
     private Boolean displayable;
 
-    public ItemPO toPO(){
-        ItemPO itemPO = new ItemPO();
-        itemPO.setItemId(this.itemId);
-        itemPO.setItemName(this.itemName);
-        itemPO.setCategory(this.category);
-        itemPO.setCollectionId(this.collectionId);
-        itemPO.setWinRate(this.winRate);
-        itemPO.setVoteCount(this.voteCount);
-        itemPO.setDisplayable(this.displayable);
-        return itemPO;
+    public Item toPO(){
+        Item item = new Item();
+        item.setItemId(this.itemId);
+        item.setItemName(this.itemName);
+        item.setCategory(this.category);
+        item.setCollectionId(this.collectionId);
+        item.setWinRate(this.winRate);
+        item.setVoteCount(this.voteCount);
+        item.setDisplayable(this.displayable);
+        return item;
     }
 }

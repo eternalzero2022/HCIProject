@@ -1,13 +1,11 @@
 package com.njuse.battlerankbackend.po;
 
 import com.njuse.battlerankbackend.vo.CollectionVO;
-import com.njuse.battlerankbackend.vo.ItemVO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -33,7 +31,7 @@ public class CollectionPO {
     @CollectionTable(name = "itemRepository", //设置生成的子表名和外键列
             joinColumns = @JoinColumn(name="cid"))
     @Column(name = "item")
-    private List<ItemPO> items;//新建子表中嵌入Comment中的几条属性comment是embeddable的
+    private List<Item> items;//新建子表中嵌入Comment中的几条属性comment是embeddable的
 
     public CollectionVO toVO(){
         CollectionVO collectionVO = new CollectionVO();

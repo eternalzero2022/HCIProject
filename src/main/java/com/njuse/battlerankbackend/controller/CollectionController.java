@@ -1,6 +1,6 @@
 package com.njuse.battlerankbackend.controller;
 
-import com.njuse.battlerankbackend.po.ItemPO;
+import com.njuse.battlerankbackend.po.Item;
 import com.njuse.battlerankbackend.service.CollectionService;
 import com.njuse.battlerankbackend.vo.CollectionVO;
 import com.njuse.battlerankbackend.vo.ItemVO;
@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -34,7 +32,7 @@ public class CollectionController {
     }
 
     @GetMapping("/{collectionId}/items")
-    public ResponseEntity<List<ItemPO>> getCollectionItems(@RequestParam Integer collectionId){
+    public ResponseEntity<List<Item>> getCollectionItems(@RequestParam Integer collectionId){
         return ResponseEntity.ok(collectionService.getCollectionItems(collectionId));
     }
 
