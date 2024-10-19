@@ -1,4 +1,8 @@
 package com.njuse.battlerankbackend.repository;
 
-public interface CollectionRepository {
+import com.njuse.battlerankbackend.po.CollectionPO;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CollectionRepository extends JpaRepository<CollectionPO, Integer> {
+
 }
