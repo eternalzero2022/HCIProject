@@ -4,6 +4,7 @@ import com.njuse.battlerankbackend.exception.SelfDefineException;
 import com.njuse.battlerankbackend.po.User;
 import com.njuse.battlerankbackend.repository.UserRepository;
 import com.njuse.battlerankbackend.service.UserService;
+import com.njuse.battlerankbackend.util.SecurityUtil;
 import com.njuse.battlerankbackend.vo.UserVO;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     UserRepository userRepos;
+
+    @Autowired
+    SecurityUtil securityUtil;
 
     @Override
     public Boolean register(UserVO userVO){
@@ -38,12 +42,16 @@ public class UserServiceImp implements UserService {
         if(user == null){
             throw SelfDefineException.loginFaultPassword();
         }
+        securityUtil.setCurrentUser(user);
         return true;
     }
 
     @Override
-    public UserVO getUser(HttpSession httpSession){
-        User user = (User)httpSession.getAttribute("user");
+    public UserVO getUser(){
+        User user = securityUtil.getCurrentUser();
+        if (user == null) {
+            return null;
+        }
         return user.toVO();
     }
 

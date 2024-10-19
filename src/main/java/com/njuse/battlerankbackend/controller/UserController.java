@@ -27,8 +27,8 @@ public class UserController {
     }
 
     @GetMapping()
-    public ResponseEntity<UserVO> getUser(HttpSession session) {
-        return ResponseEntity.ok((UserVO)session.getAttribute("user"));
+    public ResponseEntity<UserVO> getUser() {
+        return ResponseEntity.ok(userService.getUser());
     }
 
 }

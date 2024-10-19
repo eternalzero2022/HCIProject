@@ -8,5 +8,5 @@ public interface UserService {
 
     Boolean login(UserVO userVO);
 
-    UserVO getUser(HttpSession httpSession);
+    UserVO getUser();
 }
