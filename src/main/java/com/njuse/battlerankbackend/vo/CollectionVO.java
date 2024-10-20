@@ -2,10 +2,10 @@ package com.njuse.battlerankbackend.vo;
 
 import com.njuse.battlerankbackend.enums.Category;
 import com.njuse.battlerankbackend.po.CollectionPO;
-import com.njuse.battlerankbackend.po.Item;
 import lombok.Data;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class CollectionVO {
@@ -15,14 +15,15 @@ public class CollectionVO {
     // ID of the creator of the collection
     private Integer createrId;
     // List of items included in this collection
-    private List<Item> items;
-    public CollectionPO toPO(){
+    private List<ItemVO> items;
+
+    public CollectionPO toPO() {
         CollectionPO collectionPO = new CollectionPO();
         collectionPO.setCollectionId(this.collectionId);
         collectionPO.setCollectionName(this.collectionName);
         collectionPO.setCategory(this.category);
         collectionPO.setCreaterId(this.createrId);
-        collectionPO.setItems(items);
+        collectionPO.setItems(items.stream().map(ItemVO::toPO).collect(Collectors.toList()));
         return collectionPO;
     }
 }

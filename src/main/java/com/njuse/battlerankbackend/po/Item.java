@@ -7,9 +7,10 @@ import lombok.Data;
 
 @Data
 @Embeddable
+@Entity
 public class Item {
-    @Basic
-    @Column(name = "itemid")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer itemId;
 
     @Basic
@@ -23,12 +24,18 @@ public class Item {
     @Basic
     @Column
     // The win rate of this item
+    // winRate = winCount / voteCount
     private Float winRate;
 
     @Basic
     @Column
     // Total number of votes received for this item
     private Integer voteCount;
+
+    @Basic
+    @Column
+    // Total number of votes wom
+    private Integer winCount;
 
     @Basic
     @Column
@@ -42,6 +49,7 @@ public class Item {
         itemVO.setCollectionId(this.collectionId);
         itemVO.setWinRate(this.winRate);
         itemVO.setVoteCount(this.voteCount);
+        itemVO.setWinCount(this.winCount);
         itemVO.setDisplayable(this.displayable);
         return itemVO;
     }

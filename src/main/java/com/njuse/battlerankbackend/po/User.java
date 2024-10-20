@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity // 支出该Java类为实体类,将映射到指定数据库
+@Table(name = "\"user\"")
 public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id // key

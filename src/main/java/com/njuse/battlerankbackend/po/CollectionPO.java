@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -21,30 +22,30 @@ public class CollectionPO {
 
     @Basic
     @Column
-    private  String collectionName;
+    private String collectionName;
 
     @Basic
     @Column
-    private  Integer createrId;
+    private Integer createrId;
 
     @Basic
     @Column
     @Enumerated(EnumType.ORDINAL)
     private Category category;
 
-    @ElementCollection  //表示使用容器作为属性（新建子表）
+    @ElementCollection(fetch = FetchType.EAGER)  //表示使用容器作为属性（新建子表）
     @CollectionTable(name = "itemRepository", //设置生成的子表名和外键列
-            joinColumns = @JoinColumn(name="cid"))
+            joinColumns = @JoinColumn(name = "cid"))
     @Column(name = "item")
     private List<Item> items;//新建子表中嵌入Comment中的几条属性comment是embeddable的
 
-    public CollectionVO toVO(){
+    public CollectionVO toVO() {
         CollectionVO collectionVO = new CollectionVO();
         collectionVO.setCollectionId(this.collectionId);
         collectionVO.setCollectionName(this.collectionName);
         collectionVO.setCreaterId(this.createrId);
         collectionVO.setCategory(this.category);
-        collectionVO.setItems(items);
+        collectionVO.setItems(items.stream().map(Item::toVO).collect(Collectors.toList()));
         return collectionVO;
     }
 }

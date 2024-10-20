@@ -1,8 +1,11 @@
 package com.njuse.battlerankbackend.vo;
 
+import com.njuse.battlerankbackend.po.User;
+import com.njuse.battlerankbackend.serviceImpl.selectionStrategy.SelectionStrategy;
 import lombok.Data;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The VoteSession class represents a voting session for a user.
@@ -18,7 +21,7 @@ public class VoteSession {
 
     private Integer sessionId;
 
-    private Integer userId;
+    private User user;
 
     private CollectionVO collectionVO;
 
@@ -27,4 +30,8 @@ public class VoteSession {
 
     // List of rounds that are part of this voting session
     private List<VoteRound> roundList;
+
+    private AtomicInteger waitForSubmit;
+
+    private SelectionStrategy selectionStrategy;
 }

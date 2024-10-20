@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface CollectionService {
     Integer creatCollection(String collectionName,
-                            Integer creatorId,
                             List<ItemVO> items);
 
     CollectionVO getCollection(Integer collectionId);

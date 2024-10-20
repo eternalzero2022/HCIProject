@@ -1,9 +1,13 @@
 package com.njuse.battlerankbackend.vo;
 
 import com.njuse.battlerankbackend.po.Item;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ItemVO {
     private Integer itemId;
     private String itemName;
@@ -13,6 +17,8 @@ public class ItemVO {
     private Float winRate;
     // Total number of votes received for this item
     private Integer voteCount;
+    // Total number of votes wom
+    private Integer winCount;
     // Should be displayed
     private Boolean displayable;
 
@@ -23,7 +29,9 @@ public class ItemVO {
         item.setCollectionId(this.collectionId);
         item.setWinRate(this.winRate);
         item.setVoteCount(this.voteCount);
+        item.setWinCount(this.winCount);
         item.setDisplayable(this.displayable);
+
         return item;
     }
 }

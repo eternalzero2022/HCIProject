@@ -40,8 +40,8 @@ class BattlerankBackendApplicationTests2 {
             list2.add(itemVO);
         }
 
-        Integer id = controller.creatCollection(name,creatorId,list).getBody();
-        Integer id2 = controller.creatCollection(name2,creatorId2,list2).getBody();
+        Integer id = controller.creatCollection(name,list).getBody();
+        Integer id2 = controller.creatCollection(name2,list2).getBody();
         CollectionVO newCollection = controller.getCollection(id).getBody();
         List<CollectionVO> voList = controller.getCollectionList(null).getBody();
         List<Item> finaltest = controller.getCollectionItems(id).getBody();

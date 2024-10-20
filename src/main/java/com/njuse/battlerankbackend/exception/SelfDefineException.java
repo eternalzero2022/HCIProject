@@ -21,4 +21,12 @@ public class SelfDefineException extends RuntimeException{
     public static SelfDefineException getCollectionFault(){
         return new SelfDefineException("您要找的合集找不到了呢~");
     }
+
+    public static SelfDefineException invalidSessionId() { return new SelfDefineException("系统错误：非法的sessionId! "); }
+
+    public static SelfDefineException invalidRoundId() { return new SelfDefineException("系统错误：非法的roundId! "); }
+
+    public static SelfDefineException invalidWinnerId() { return new SelfDefineException("系统错误：非法的winnerId! "); }
+
+    public static SelfDefineException invalidItemId() { return new SelfDefineException("系统错误：非法的itemId! "); }
 }

@@ -5,6 +5,8 @@ import com.njuse.battlerankbackend.po.CollectionPO;
 import com.njuse.battlerankbackend.po.Item;
 import com.njuse.battlerankbackend.repository.CollectionRepository;
 import com.njuse.battlerankbackend.service.CollectionService;
+import com.njuse.battlerankbackend.service.ItemService;
+import com.njuse.battlerankbackend.util.SecurityUtil;
 import com.njuse.battlerankbackend.vo.CollectionVO;
 import com.njuse.battlerankbackend.vo.ItemVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +22,18 @@ public class CollectionServiceImp implements CollectionService {
 
     @Autowired
     CollectionRepository collectionRepository;
+
+    @Autowired
+    ItemService itemService;
+
+    @Autowired
+    private SecurityUtil securityUtil;
+
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Integer creatCollection(String collectionName,
-                            Integer creatorId,
                             List<ItemVO> items){
+        Integer creatorId = securityUtil.getCurrentUser().getUserId();
         CollectionPO isAlreadyExist = collectionRepository.findByCollectionNameAndCreaterId(collectionName, creatorId);
         if(isAlreadyExist != null) throw SelfDefineException.creatCollectionFault1();
 
@@ -32,17 +41,25 @@ public class CollectionServiceImp implements CollectionService {
         newCollection.setCollectionName(collectionName);
         newCollection.setCreaterId(creatorId);
         newCollection.setItems(new ArrayList<>());
-        collectionRepository.save(newCollection);
+        newCollection = collectionRepository.save(newCollection);
 
-        isAlreadyExist = collectionRepository.findByCollectionNameAndCreaterId(collectionName, creatorId);
-        List<Item> itemPOS = isAlreadyExist.getItems();
-        if (itemPOS == null) itemPOS = new ArrayList<Item>();
+//        isAlreadyExist = collectionRepository.findByCollectionNameAndCreaterId(collectionName, creatorId);
+        List<Item> itemPOS = newCollection.getItems();
+        if (itemPOS == null) itemPOS = new ArrayList<>();
         for (int i = 0;i<items.size();i++){
-            itemPOS.add(items.get(i).toPO());
+            Item item = items.get(i).toPO();
+            item.setCollectionId(newCollection.getCollectionId());
+
+            item.setItemId(0);
+            item.setVoteCount(0);
+            item.setWinCount(0);
+            item.setWinRate(0f);
+            item = itemService.saveItem(item);
+            itemPOS.add(item);
         }
-        isAlreadyExist.setItems(itemPOS);
-        collectionRepository.save(isAlreadyExist);
-        return isAlreadyExist.getCollectionId();
+        newCollection.setItems(itemPOS);
+        collectionRepository.save(newCollection);
+        return newCollection.getCollectionId();
     }
 
     @Override

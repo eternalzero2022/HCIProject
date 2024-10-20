@@ -20,14 +20,13 @@ public class CollectionController {
     @PostMapping()
     public ResponseEntity<Integer> creatCollection(
             @RequestParam String collectionName,
-            @RequestParam Integer creatorId,
             @RequestBody List<ItemVO> items){
         return ResponseEntity.ok(collectionService.creatCollection(
-                collectionName,creatorId,items));
+                collectionName,items));
     }
 
     @GetMapping("/{collectionId}")
-    public ResponseEntity<CollectionVO> getCollection(@RequestParam Integer collectionId){
+    public ResponseEntity<CollectionVO> getCollection(@PathVariable Integer collectionId){
         return ResponseEntity.ok(collectionService.getCollection(collectionId));
     }
 
