@@ -2,7 +2,6 @@ package com.njuse.battlerankbackend.controller;
 
 import com.njuse.battlerankbackend.service.UserService;
 import com.njuse.battlerankbackend.vo.UserVO;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
