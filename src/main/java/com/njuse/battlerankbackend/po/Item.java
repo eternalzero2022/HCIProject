@@ -18,6 +18,14 @@ public class Item {
     private String itemName;
 
     @Basic
+    @Column
+    private String description;
+
+    @Basic
+    @Column
+    private String imageUrl;
+
+    @Basic
     // The collection to which this item belongs
     private Integer collectionId;
 
@@ -46,6 +54,8 @@ public class Item {
         ItemVO itemVO = new ItemVO();
         itemVO.setItemId(this.itemId);
         itemVO.setItemName(this.itemName);
+        itemVO.setDescription(this.description);
+        itemVO.setImageUrl(this.imageUrl);
         itemVO.setCollectionId(this.collectionId);
         itemVO.setWinRate(this.winRate);
         itemVO.setVoteCount(this.voteCount);

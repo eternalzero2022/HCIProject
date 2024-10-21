@@ -12,6 +12,8 @@ public class CollectionVO {
     private Integer collectionId;
     private String collectionName;
     private Category category;
+    private String description;
+    private String imageUrl;
     // ID of the creator of the collection
     private Integer createrId;
     // List of items included in this collection
@@ -21,6 +23,8 @@ public class CollectionVO {
         CollectionPO collectionPO = new CollectionPO();
         collectionPO.setCollectionId(this.collectionId);
         collectionPO.setCollectionName(this.collectionName);
+        collectionPO.setImageUrl(this.imageUrl);
+        collectionPO.setDescription(this.description);
         collectionPO.setCategory(this.category);
         collectionPO.setCreaterId(this.createrId);
         collectionPO.setItems(items.stream().map(ItemVO::toPO).collect(Collectors.toList()));

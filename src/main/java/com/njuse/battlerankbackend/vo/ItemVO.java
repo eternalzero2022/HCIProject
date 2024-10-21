@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 public class ItemVO {
     private Integer itemId;
     private String itemName;
+    private String description;
+    private String imageUrl;
     // The collection to which this item belongs
     private Integer collectionId;
     // The win rate of this item
@@ -26,6 +28,8 @@ public class ItemVO {
         Item item = new Item();
         item.setItemId(this.itemId);
         item.setItemName(this.itemName);
+        item.setDescription(this.description);
+        item.setImageUrl(this.imageUrl);
         item.setCollectionId(this.collectionId);
         item.setWinRate(this.winRate);
         item.setVoteCount(this.voteCount);

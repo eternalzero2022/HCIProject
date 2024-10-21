@@ -26,6 +26,14 @@ public class CollectionPO {
 
     @Basic
     @Column
+    private String description;
+
+    @Basic
+    @Column
+    private String imageUrl;
+
+    @Basic
+    @Column
     private Integer createrId;
 
     @Basic
@@ -43,6 +51,8 @@ public class CollectionPO {
         CollectionVO collectionVO = new CollectionVO();
         collectionVO.setCollectionId(this.collectionId);
         collectionVO.setCollectionName(this.collectionName);
+        collectionVO.setDescription(this.description);
+        collectionVO.setImageUrl(this.imageUrl);
         collectionVO.setCreaterId(this.createrId);
         collectionVO.setCategory(this.category);
         collectionVO.setItems(items.stream().map(Item::toVO).collect(Collectors.toList()));

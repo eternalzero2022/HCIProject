@@ -21,11 +21,11 @@ public class VoteServiceTest extends BaseUtilTest {
         login("1888888", "123456");
 
         List<ItemVO> itemList = new ArrayList<>();
-        itemList.add(new ItemVO(0, "高坂穗乃果", 0, 0f, 0, 0, true));
-        itemList.add(new ItemVO(9, "高海千歌", 1, 0f, 0, 0, true));
-        itemList.add(new ItemVO(18, "上原步梦", 2, 0f, 0, 0, true));
-        itemList.add(new ItemVO(27, "涩谷香音", 3, 0f, 0, 0, true));
-        itemList.add(new ItemVO(32, "日野下花帆", 4, 0f, 0, 0, true));
+        itemList.add(new ItemVO(0, "高坂穗乃果", "", "", 0, 0f, 0, 0, true));
+        itemList.add(new ItemVO(9, "高海千歌", "", "", 1, 0f, 0, 0, true));
+        itemList.add(new ItemVO(18, "上原步梦", "", "", 2, 0f, 0, 0, true));
+        itemList.add(new ItemVO(27, "涩谷香音", "", "", 3, 0f, 0, 0, true));
+        itemList.add(new ItemVO(32, "日野下花帆", "", "", 4, 0f, 0, 0, true));
         Integer collectionId = createCollection("Your favoriate Lovelive leader", itemList);
 
         Integer sessionId = startVoteSession(collectionId);
@@ -64,15 +64,15 @@ public class VoteServiceTest extends BaseUtilTest {
     public void terminateAtHalf() {
 
 
-        register("1888888", "123456");
-        login("1888888", "123456");
+        register("18888888", "123456");
+        login("18888888", "123456");
 
         List<ItemVO> itemList = new ArrayList<>();
-        itemList.add(new ItemVO(0, "高坂穗乃果", 0, 0f, 0, 0, true));
-        itemList.add(new ItemVO(9, "高海千歌", 1, 0f, 0, 0, true));
-        itemList.add(new ItemVO(18, "上原步梦", 2, 0f, 0, 0, true));
-        itemList.add(new ItemVO(27, "涩谷香音", 3, 0f, 0, 0, true));
-        itemList.add(new ItemVO(32, "日野下花帆", 4, 0f, 0, 0, true));
+        itemList.add(new ItemVO(0, "高坂穗乃果", "", "", 0, 0f, 0, 0, true));
+        itemList.add(new ItemVO(9, "高海千歌", "", "", 1, 0f, 0, 0, true));
+        itemList.add(new ItemVO(18, "上原步梦", "", "", 2, 0f, 0, 0, true));
+        itemList.add(new ItemVO(27, "涩谷香音", "", "", 3, 0f, 0, 0, true));
+        itemList.add(new ItemVO(32, "日野下花帆", "", "", 4, 0f, 0, 0, true));
         Integer collectionId = createCollection("Your favoriate Lovelive leader", itemList);
 
         Integer sessionId = startVoteSession(collectionId);
