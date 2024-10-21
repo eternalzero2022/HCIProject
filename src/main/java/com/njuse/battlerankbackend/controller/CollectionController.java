@@ -36,7 +36,7 @@ public class CollectionController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<CollectionVO>> getCollectionList(@RequestParam String category){
+    public ResponseEntity<List<CollectionVO>> getCollectionList(@RequestParam(required = false, defaultValue = "") String category){
         return ResponseEntity.ok(collectionService.getCollectionList(category));
     }
 

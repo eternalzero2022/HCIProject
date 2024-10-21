@@ -34,12 +34,12 @@ public class CollectionServiceImp implements CollectionService {
     public Integer creatCollection(String collectionName,
                             List<ItemVO> items){
         Integer creatorId = securityUtil.getCurrentUser().getUserId();
-        CollectionPO isAlreadyExist = collectionRepository.findByCollectionNameAndCreaterId(collectionName, creatorId);
+        CollectionPO isAlreadyExist = collectionRepository.findByCollectionNameAndCreatorId(collectionName, creatorId);
         if(isAlreadyExist != null) throw SelfDefineException.creatCollectionFault1();
 
         CollectionPO newCollection = new CollectionPO();
         newCollection.setCollectionName(collectionName);
-        newCollection.setCreaterId(creatorId);
+        newCollection.setCreatorId(creatorId);
         newCollection.setItems(new ArrayList<>());
         newCollection = collectionRepository.save(newCollection);
 
@@ -80,14 +80,15 @@ public class CollectionServiceImp implements CollectionService {
     public List<CollectionVO> getCollectionList(String category){
         List<CollectionPO> collectionVOS = collectionRepository.findAll();
         List<CollectionVO> result = new ArrayList<>();
-        Boolean condition = false;
-        if(category == null)  condition = true;
+        Boolean condition = true;
+
+        if(category == null || category == "")  condition = true;
         for (int i = 0;i <collectionVOS.size();i++){
             if(condition){ // 条件判断
                 result.add(collectionVOS.get(i).toVO());
             }
         }
-
+        System.out.println(result);
         return result;
     }
 }

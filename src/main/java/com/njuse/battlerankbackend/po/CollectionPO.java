@@ -34,7 +34,7 @@ public class CollectionPO {
 
     @Basic
     @Column
-    private Integer createrId;
+    private Integer creatorId;
 
     @Basic
     @Column
@@ -53,7 +53,7 @@ public class CollectionPO {
         collectionVO.setCollectionName(this.collectionName);
         collectionVO.setDescription(this.description);
         collectionVO.setImageUrl(this.imageUrl);
-        collectionVO.setCreaterId(this.createrId);
+        collectionVO.setCreatorId(this.creatorId);
         collectionVO.setCategory(this.category);
         collectionVO.setItems(items.stream().map(Item::toVO).collect(Collectors.toList()));
         return collectionVO;
