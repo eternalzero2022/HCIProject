@@ -12,6 +12,7 @@ public class UserVO {
     private String username;
     private String phone;
     private String password;
+    private String imageUrl;
 
     public User toPO(){
         User user = new User();
@@ -19,7 +20,7 @@ public class UserVO {
         user.setUsername(this.username);
         user.setPhone(this.phone);
         user.setPassword(this.password);
-
+        user.setImageUrl(this.imageUrl);
         return user;
     }
 }

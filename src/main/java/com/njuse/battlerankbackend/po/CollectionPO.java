@@ -26,6 +26,11 @@ public class CollectionPO {
 
     @Basic
     @Column
+    @Enumerated(EnumType.ORDINAL)
+    private Category category;
+
+    @Basic
+    @Column
     private String description;
 
     @Basic
@@ -38,8 +43,7 @@ public class CollectionPO {
 
     @Basic
     @Column
-    @Enumerated(EnumType.ORDINAL)
-    private Category category;
+    private Integer voteCount;
 
     @ElementCollection(fetch = FetchType.EAGER)  //表示使用容器作为属性（新建子表）
     @CollectionTable(name = "itemRepository", //设置生成的子表名和外键列
@@ -55,6 +59,7 @@ public class CollectionPO {
         collectionVO.setImageUrl(this.imageUrl);
         collectionVO.setCreatorId(this.creatorId);
         collectionVO.setCategory(this.category);
+        collectionVO.setVoteCount(this.voteCount);
         collectionVO.setItems(items.stream().map(Item::toVO).collect(Collectors.toList()));
         return collectionVO;
     }

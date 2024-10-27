@@ -7,25 +7,22 @@ import org.apache.hc.client5.http.cookie.CookieStore;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BaseUtilTest {
-
     @Autowired
     protected TestRestTemplate restTemplate;
 
@@ -48,101 +45,143 @@ public class BaseUtilTest {
         user.setPhone(phone);
         user.setPassword(password);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
+        HttpHeaders headers = createHeaders();
         HttpEntity<UserVO> requestEntity = new HttpEntity<>(user, headers);
 
-        ResponseEntity<Boolean> response = restTemplate.exchange("/api/users/login", HttpMethod.POST, requestEntity, Boolean.class);
+        ResponseEntity<ResultVO<Boolean>> response = restTemplate.exchange(
+                "/api/users/login",
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<ResultVO<Boolean>>() {
+                });
 
-        assert(response.getStatusCodeValue() == 200);
-        assert(response.getBody().booleanValue());
-
-        return true;
-
+        assert (response.getStatusCodeValue() == 200);
+        return response.getBody().getResult();
     }
 
     protected Boolean register(String phone, String password) {
         UserVO user = new UserVO();
         user.setPhone(phone);
         user.setPassword(password);
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
+
+        HttpHeaders headers = createHeaders();
         HttpEntity<UserVO> requestEntity = new HttpEntity<>(user, headers);
 
-        ResponseEntity<Boolean> response = restTemplate.exchange("/api/users/register", HttpMethod.POST, requestEntity, Boolean.class);
+        ResponseEntity<ResultVO<Boolean>> response = restTemplate.exchange(
+                "/api/users/register",
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<ResultVO<Boolean>>() {
+                });
 
-        assert(response.getStatusCodeValue() == 200);
-        assert(response.getBody().booleanValue());
-        return true;
+        assert (response.getStatusCodeValue() == 200);
+        return response.getBody().getResult();
     }
 
     protected UserVO getCurrentUser() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
+        HttpHeaders headers = createHeaders();
 
-        ResponseEntity<UserVO> response = restTemplate.exchange("/api/users", HttpMethod.GET, new HttpEntity<>(headers), UserVO.class);
+        ResponseEntity<ResultVO<UserVO>> response = restTemplate.exchange(
+                "/api/users",
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                new ParameterizedTypeReference<ResultVO<UserVO>>() {
+                });
 
-        assert(response.getStatusCodeValue() == 200);
-        return response.getBody();
+        assert (response.getStatusCodeValue() == 200);
+        return response.getBody().getResult();
     }
 
-    protected Integer createCollection(String name, List<ItemVO> itemVOList) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
-        HttpEntity<List<ItemVO>> httpEntity = new HttpEntity<>(itemVOList, headers);
+    protected Integer createCollection(CollectionVO collectionVO) {
+        HttpHeaders headers = createHeaders();
+        HttpEntity<CollectionVO> httpEntity = new HttpEntity<>(collectionVO, headers);
 
-        String uri = UriComponentsBuilder.fromUriString("/api/collections")
-                .queryParam("collectionName", name)
-                .toUriString();
 
-        ResponseEntity<Integer> response = restTemplate.exchange(uri, HttpMethod.POST, httpEntity, Integer.class);
-        assert(response.getStatusCodeValue() == 200);
-        return response.getBody();
+        ResponseEntity<ResultVO<Integer>> response = restTemplate.exchange(
+                "/api/collections",
+                HttpMethod.POST,
+                httpEntity,
+                new ParameterizedTypeReference<>() {
+                });
+        System.out.println(response.getBody().getResult());
+        assert (response.getBody().getCode().equals("200"));
+        return response.getBody().getResult();
     }
 
     protected CollectionVO getCollectionById(Integer collectionId) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
+        HttpHeaders headers = createHeaders();
 
-        ResponseEntity<CollectionVO> response = restTemplate.exchange("/api/collections/"+collectionId, HttpMethod.GET, new HttpEntity<>(headers), CollectionVO.class);
-        assert(response.getStatusCodeValue() == 200);
-        return response.getBody();
+        ResponseEntity<ResultVO<CollectionVO>> response = restTemplate.exchange(
+                "/api/collections/" + collectionId,
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                new ParameterizedTypeReference<ResultVO<CollectionVO>>() {
+                });
+
+        assert (response.getStatusCodeValue() == 200);
+        return response.getBody().getResult();
     }
 
     protected Integer startVoteSession(Integer collectionId) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
+        HttpHeaders headers = createHeaders();
 
-        ResponseEntity<Integer> response = restTemplate.exchange("/api/vote/start/"+collectionId, HttpMethod.GET, new HttpEntity<>(headers), Integer.class);
-        assert(response.getStatusCodeValue() == 200);
-        return response.getBody();
+        ResponseEntity<ResultVO<Integer>> response = restTemplate.exchange(
+                "/api/vote/start/" + collectionId,
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                new ParameterizedTypeReference<ResultVO<Integer>>() {
+                });
+
+        assert (response.getStatusCodeValue() == 200);
+        return response.getBody().getResult();
     }
 
     protected VoteRound getNextRound(Integer sessionId) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
-        ResponseEntity<VoteRound> response = restTemplate.exchange("/api/vote/"+sessionId+"/next", HttpMethod.GET, new HttpEntity<>(headers), VoteRound.class);
-        assert(response.getStatusCodeValue() == 200);
-        return response.getBody();
+        HttpHeaders headers = createHeaders();
+
+        ResponseEntity<ResultVO<VoteRound>> response = restTemplate.exchange(
+                "/api/vote/" + sessionId + "/next",
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                new ParameterizedTypeReference<ResultVO<VoteRound>>() {
+                });
+
+        assert (response.getStatusCodeValue() == 200);
+        return response.getBody().getResult();
     }
 
     protected Boolean submitVoteRound(VoteRoundResult result) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
+        HttpHeaders headers = createHeaders();
         HttpEntity<VoteRoundResult> httpEntity = new HttpEntity<>(result, headers);
-        ResponseEntity<Boolean> response = restTemplate.exchange("/api/vote/result", HttpMethod.POST, httpEntity, Boolean.class);
-        assert(response.getStatusCodeValue() == 200);
-        assert(response.getBody().booleanValue());
-        return true;
+
+        ResponseEntity<ResultVO<Boolean>> response = restTemplate.exchange(
+                "/api/vote/result",
+                HttpMethod.POST,
+                httpEntity,
+                new ParameterizedTypeReference<ResultVO<Boolean>>() {
+                });
+
+        assert (response.getStatusCodeValue() == 200);
+        return response.getBody().getResult();
     }
 
     protected Boolean endVoteSession(Integer sessionId) {
+        HttpHeaders headers = createHeaders();
+
+        ResponseEntity<ResultVO<Boolean>> response = restTemplate.exchange(
+                "/api/vote/" + sessionId + "/end",
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                new ParameterizedTypeReference<ResultVO<Boolean>>() {
+                });
+
+        assert (response.getStatusCodeValue() == 200);
+        return response.getBody().getResult();
+    }
+
+    private HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
-
-        ResponseEntity<Boolean> httpEntity = restTemplate.exchange("/api/vote/"+sessionId+"/end", HttpMethod.GET, new HttpEntity<>(headers), Boolean.class);
-        assert(httpEntity.getStatusCodeValue() == 200);
-        assert (httpEntity.getBody().booleanValue());
-        return httpEntity.getBody();
+        return headers;
     }
 }

@@ -2,12 +2,18 @@ package com.njuse.battlerankbackend.vo;
 
 import com.njuse.battlerankbackend.enums.Category;
 import com.njuse.battlerankbackend.po.CollectionPO;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CollectionVO {
     private Integer collectionId;
     private String collectionName;
@@ -16,6 +22,7 @@ public class CollectionVO {
     private String imageUrl;
     // ID of the creator of the collection
     private Integer creatorId;
+    private Integer voteCount;
     // List of items included in this collection
     private List<ItemVO> items;
 
@@ -27,6 +34,7 @@ public class CollectionVO {
         collectionPO.setDescription(this.description);
         collectionPO.setCategory(this.category);
         collectionPO.setCreatorId(this.creatorId);
+        collectionPO.setVoteCount(this.voteCount);
         collectionPO.setItems(items.stream().map(ItemVO::toPO).collect(Collectors.toList()));
         return collectionPO;
     }

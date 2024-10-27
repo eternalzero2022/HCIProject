@@ -31,15 +31,15 @@ public class CollectionServiceImp implements CollectionService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public Integer creatCollection(String collectionName,
-                            List<ItemVO> items){
+    public Integer creatCollection(CollectionVO collectionVO){
         Integer creatorId = securityUtil.getCurrentUser().getUserId();
-        CollectionPO isAlreadyExist = collectionRepository.findByCollectionNameAndCreatorId(collectionName, creatorId);
+        CollectionPO isAlreadyExist = collectionRepository.findByCollectionNameAndCreatorId(collectionVO.getCollectionName(), creatorId);
         if(isAlreadyExist != null) throw SelfDefineException.creatCollectionFault1();
 
-        CollectionPO newCollection = new CollectionPO();
-        newCollection.setCollectionName(collectionName);
+        List<ItemVO> items = collectionVO.getItems();
+        CollectionPO newCollection = collectionVO.toPO();
         newCollection.setCreatorId(creatorId);
+        newCollection.setVoteCount(0);
         newCollection.setItems(new ArrayList<>());
         newCollection = collectionRepository.save(newCollection);
 
@@ -90,5 +90,12 @@ public class CollectionServiceImp implements CollectionService {
         }
         System.out.println(result);
         return result;
+    }
+
+    @Override
+    public void increaseVoteCount(Integer collectionId, Integer voteCount) {
+        CollectionPO collection = collectionRepository.findByCollectionId(collectionId);
+        collection.setVoteCount(voteCount + collection.getVoteCount());
+        collectionRepository.save(collection);
     }
 }

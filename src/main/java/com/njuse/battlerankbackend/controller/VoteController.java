@@ -1,6 +1,7 @@
 package com.njuse.battlerankbackend.controller;
 
 import com.njuse.battlerankbackend.service.VoteService;
+import com.njuse.battlerankbackend.vo.ResultVO;
 import com.njuse.battlerankbackend.vo.VoteRound;
 import com.njuse.battlerankbackend.vo.VoteRoundResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +16,22 @@ public class VoteController {
     private VoteService voteService;
 
     @GetMapping("/start/{collectionId}")
-    public ResponseEntity<Integer> startVote(@PathVariable Integer collectionId) {
-        return ResponseEntity.ok(voteService.startVoteSession(collectionId));
+    public ResultVO<Integer> startVote(@PathVariable Integer collectionId) {
+        return ResultVO.buildSuccess(voteService.startVoteSession(collectionId));
     }
 
     @GetMapping("/{sessionId}/next")
-    public ResponseEntity<VoteRound> nextVoteRound(@PathVariable Integer sessionId) {
-        return ResponseEntity.ok(voteService.nextVoteRound(sessionId));
+    public ResultVO<VoteRound> nextVoteRound(@PathVariable Integer sessionId) {
+        return ResultVO.buildSuccess(voteService.nextVoteRound(sessionId));
     }
 
     @PostMapping("/result")
-    public ResponseEntity<Boolean> submitVoteRound(@RequestBody VoteRoundResult voteRoundResult) {
-        return ResponseEntity.ok(voteService.submitVoteRoundResult(voteRoundResult));
+    public ResultVO<Boolean> submitVoteRound(@RequestBody VoteRoundResult voteRoundResult) {
+        return ResultVO.buildSuccess(voteService.submitVoteRoundResult(voteRoundResult));
     }
 
     @GetMapping("/{sessionId}/end")
-    public ResponseEntity<Boolean> endVoteRound(@PathVariable Integer sessionId) {
-        return ResponseEntity.ok(voteService.endVoteSession(sessionId));
+    public ResultVO<Boolean> endVoteRound(@PathVariable Integer sessionId) {
+        return ResultVO.buildSuccess(voteService.endVoteSession(sessionId));
     }
 }

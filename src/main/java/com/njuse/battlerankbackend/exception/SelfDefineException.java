@@ -41,4 +41,8 @@ public class SelfDefineException extends RuntimeException{
     public static SelfDefineException fileUploadFail() {
         return new SelfDefineException("文件上传失败");
     }
+
+    public static SelfDefineException notLogin() {
+        return new SelfDefineException("用户未登陆");
+    }
 }

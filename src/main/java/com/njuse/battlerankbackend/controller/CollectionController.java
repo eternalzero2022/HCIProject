@@ -3,7 +3,7 @@ package com.njuse.battlerankbackend.controller;
 import com.njuse.battlerankbackend.po.Item;
 import com.njuse.battlerankbackend.service.CollectionService;
 import com.njuse.battlerankbackend.vo.CollectionVO;
-import com.njuse.battlerankbackend.vo.ItemVO;
+import com.njuse.battlerankbackend.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,26 +18,23 @@ public class CollectionController {
     CollectionService collectionService;
 
     @PostMapping()
-    public ResponseEntity<Integer> creatCollection(
-            @RequestParam String collectionName,
-            @RequestBody List<ItemVO> items){
-        return ResponseEntity.ok(collectionService.creatCollection(
-                collectionName,items));
+    public ResultVO<Integer> creatCollection(@RequestBody CollectionVO collectionVO){
+        return ResultVO.buildSuccess(collectionService.creatCollection(collectionVO));
     }
 
     @GetMapping("/{collectionId}")
-    public ResponseEntity<CollectionVO> getCollection(@PathVariable Integer collectionId){
-        return ResponseEntity.ok(collectionService.getCollection(collectionId));
+    public ResultVO<CollectionVO> getCollection(@PathVariable Integer collectionId){
+        return ResultVO.buildSuccess(collectionService.getCollection(collectionId));
     }
 
     @GetMapping("/{collectionId}/items")
-    public ResponseEntity<List<Item>> getCollectionItems(@RequestParam Integer collectionId){
-        return ResponseEntity.ok(collectionService.getCollectionItems(collectionId));
+    public ResultVO<List<Item>> getCollectionItems(@RequestParam Integer collectionId){
+        return ResultVO.buildSuccess(collectionService.getCollectionItems(collectionId));
     }
 
     @GetMapping()
-    public ResponseEntity<List<CollectionVO>> getCollectionList(@RequestParam(required = false, defaultValue = "") String category){
-        return ResponseEntity.ok(collectionService.getCollectionList(category));
+    public ResultVO<List<CollectionVO>> getCollectionList(@RequestParam(required = false, defaultValue = "") String category){
+        return ResultVO.buildSuccess(collectionService.getCollectionList(category));
     }
 
 }

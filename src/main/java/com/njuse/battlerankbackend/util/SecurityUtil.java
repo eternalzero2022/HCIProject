@@ -1,6 +1,8 @@
 package com.njuse.battlerankbackend.util;
 
+import com.njuse.battlerankbackend.exception.SelfDefineException;
 import com.njuse.battlerankbackend.po.User;
+import com.njuse.battlerankbackend.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +14,11 @@ public class SecurityUtil {
     HttpServletRequest request;
 
     public User getCurrentUser() {
-        return (User) request.getSession().getAttribute("currentUser");
+        User user = (User) request.getSession().getAttribute("currentUser");
+        if (user == null) {
+            throw SelfDefineException.notLogin();
+        }
+        return user;
     }
 
     public void setCurrentUser(User user) {

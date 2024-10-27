@@ -26,7 +26,10 @@ public class VoteServiceTest extends BaseUtilTest {
         itemList.add(new ItemVO(18, "上原步梦", "", "", 2, 0f, 0, 0, true));
         itemList.add(new ItemVO(27, "涩谷香音", "", "", 3, 0f, 0, 0, true));
         itemList.add(new ItemVO(32, "日野下花帆", "", "", 4, 0f, 0, 0, true));
-        Integer collectionId = createCollection("Your favoriate Lovelive leader", itemList);
+        CollectionVO collectionVO = CollectionVO.builder()
+                .collectionName("Your favoriate Lovelive leader")
+                .items(itemList).build();
+        Integer collectionId = createCollection(collectionVO);
 
         Integer sessionId = startVoteSession(collectionId);
         Random random = new Random();
@@ -53,9 +56,9 @@ public class VoteServiceTest extends BaseUtilTest {
             e.printStackTrace();
         }
 
-        CollectionVO collectionVO = getCollectionById(collectionId);
+        CollectionVO newCollectionVO = getCollectionById(collectionId);
 
-        for (ItemVO itemVO : collectionVO.getItems()) {
+        for (ItemVO itemVO : newCollectionVO.getItems()) {
             System.out.println(itemVO);
         }
     }
@@ -73,7 +76,10 @@ public class VoteServiceTest extends BaseUtilTest {
         itemList.add(new ItemVO(18, "上原步梦", "", "", 2, 0f, 0, 0, true));
         itemList.add(new ItemVO(27, "涩谷香音", "", "", 3, 0f, 0, 0, true));
         itemList.add(new ItemVO(32, "日野下花帆", "", "", 4, 0f, 0, 0, true));
-        Integer collectionId = createCollection("Your favoriate Lovelive leader", itemList);
+        CollectionVO collectionVO = CollectionVO.builder()
+                .collectionName("Your favoriate Lovelive leader")
+                .items(itemList).build();
+        Integer collectionId = createCollection(collectionVO);
 
         Integer sessionId = startVoteSession(collectionId);
         Random random = new Random();
@@ -102,9 +108,9 @@ public class VoteServiceTest extends BaseUtilTest {
             e.printStackTrace();
         }
 
-        CollectionVO collectionVO = getCollectionById(collectionId);
+        CollectionVO newCollectionVO = getCollectionById(collectionId);
 
-        for (ItemVO itemVO : collectionVO.getItems()) {
+        for (ItemVO itemVO : newCollectionVO.getItems()) {
             System.out.println(itemVO);
         }
     }

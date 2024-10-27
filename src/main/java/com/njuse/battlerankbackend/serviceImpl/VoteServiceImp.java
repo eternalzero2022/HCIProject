@@ -159,12 +159,15 @@ public class VoteServiceImp implements VoteService {
                 e.printStackTrace();
             }
         }
+
+        int roundCnt = 0;
         for (VoteRound voteRound : voteSession.getRoundList()) {
             List<ItemVO> participants = voteRound.getParticipants();
             Item participant1 = itemService.getItemById(participants.get(0).getItemId());
             Item participant2 = itemService.getItemById(participants.get(1).getItemId());
             participant1.setVoteCount(participant1.getVoteCount() + 1);
             participant2.setVoteCount(participant2.getVoteCount() + 1);
+            roundCnt++;
 
             Integer winnerId = voteRound.getWinner();
             if (winnerId.equals(participant1.getItemId())) {
@@ -178,6 +181,8 @@ public class VoteServiceImp implements VoteService {
             itemService.saveItem(participant1);
             itemService.saveItem(participant2);
         }
+        Integer collectionId = voteSession.getCollectionVO().getCollectionId();
+        collectionService.increaseVoteCount(collectionId, roundCnt);
         return true;
     }
 

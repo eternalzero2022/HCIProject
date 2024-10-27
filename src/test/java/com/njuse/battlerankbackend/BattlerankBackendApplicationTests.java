@@ -2,6 +2,7 @@ package com.njuse.battlerankbackend;
 
 import com.njuse.battlerankbackend.controller.UserController;
 import com.njuse.battlerankbackend.service.UserService;
+import com.njuse.battlerankbackend.vo.ResultVO;
 import com.njuse.battlerankbackend.vo.UserVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,10 @@ class BattlerankBackendApplicationTests {
 		UserVO hyf = new UserVO();
 		hyf.setPhone("333");
 		hyf.setPhone("444");
-		ResponseEntity<Boolean> register = userController.register(hyf);
-		assert register.getBody();
-		assert userController.login(hyf).getBody();
-		assert userController.login(cwh).getBody();
+		ResultVO<Boolean> register = userController.register(hyf);
+		assert register.getResult();
+		assert userController.login(hyf).getResult();
+		assert userController.login(cwh).getResult();
 
 	}
 

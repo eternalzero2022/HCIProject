@@ -30,13 +30,17 @@ public class User {
     @Column
     private String password;
 
+    @Basic
+    @Column
+    private String imageUrl;
+
     public UserVO toVO(){
         UserVO userVO = new UserVO();
         userVO.setUserId(this.userId);
         userVO.setUsername(this.username);
         userVO.setPhone(this.phone);
         userVO.setPassword(this.password);
-
+        userVO.setImageUrl(this.imageUrl);
         return userVO;
     }
 }
