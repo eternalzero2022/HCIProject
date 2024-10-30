@@ -64,9 +64,9 @@ public class RandomSelectionStrategy implements SelectionStrategy {
         int n = shuffledItems.size();
         int[] indexes;
         do {
-            if (isFinished()) return null;
+            if (isFinished()) return new ArrayList<>();
             indexes = mapTo2D(this.round++, n);
-        } while (indexes[0] == indexes[1]);
+        } while (indexes[0] >= indexes[1]);
 
         List<ItemVO> items = new ArrayList<>();
         items.add(this.shuffledItems.get(indexes[0]));
