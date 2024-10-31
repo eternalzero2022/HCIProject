@@ -31,4 +31,8 @@ public class UserController {
         return ResultVO.buildSuccess(userService.getUser());
     }
 
+    @GetMapping("/{userId}")
+    public ResultVO<UserVO> getUserById(@PathVariable Integer userId) {
+        return ResultVO.buildSuccess(userService.getUserById(userId));
+    }
 }

@@ -30,6 +30,16 @@ public class UserServiceImp implements UserService {
         return true;
     }
 
+    @Override
+    public UserVO getUserById(Integer userId){
+        User user = userRepos.findById(userId).orElse(null);
+        if(user == null){
+            throw SelfDefineException.userNotFound();
+        }
+        user.setPassword("");
+        return user.toVO();
+    }
+
 
     @Override
     public Boolean login(UserVO userVO){

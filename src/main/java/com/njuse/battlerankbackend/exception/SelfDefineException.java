@@ -45,4 +45,8 @@ public class SelfDefineException extends RuntimeException{
     public static SelfDefineException notLogin() {
         return new SelfDefineException("用户未登陆");
     }
+
+    public static SelfDefineException userNotFound() {
+        return new SelfDefineException("用户不存在");
+    }
 }

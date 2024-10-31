@@ -9,4 +9,6 @@ public interface UserService {
     Boolean login(UserVO userVO);
 
     UserVO getUser();
+
+    UserVO getUserById(Integer userId);
 }
