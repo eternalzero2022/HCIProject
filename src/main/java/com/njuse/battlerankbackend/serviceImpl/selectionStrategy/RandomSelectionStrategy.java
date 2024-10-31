@@ -6,6 +6,7 @@ import com.njuse.battlerankbackend.vo.VoteSession;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -19,6 +20,7 @@ public class RandomSelectionStrategy implements SelectionStrategy {
     private final VoteSession voteSession;
     private final List<ItemVO> shuffledItems;
     int round = 0;
+    private HashSet<Integer> excludedItems = new HashSet<>();
 
     public RandomSelectionStrategy(VoteSession voteSession) {
         this.voteSession = voteSession;
@@ -52,6 +54,12 @@ public class RandomSelectionStrategy implements SelectionStrategy {
         return new int[]{row, col};
     }
 
+    private boolean isUnsuitablePair(int i, int j) {
+        return i >= j ||
+                excludedItems.contains(this.shuffledItems.get(i).getItemId()) ||
+                excludedItems.contains(this.shuffledItems.get(j).getItemId());
+    }
+
     /**
      * Selects the next two items for voting from the shuffled list. If the selection
      * process is finished, returns null.
@@ -66,7 +74,7 @@ public class RandomSelectionStrategy implements SelectionStrategy {
         do {
             if (isFinished()) return new ArrayList<>();
             indexes = mapTo2D(this.round++, n);
-        } while (indexes[0] >= indexes[1]);
+        } while (isUnsuitablePair(indexes[0], indexes[1]));
 
         List<ItemVO> items = new ArrayList<>();
         items.add(this.shuffledItems.get(indexes[0]));
@@ -84,5 +92,15 @@ public class RandomSelectionStrategy implements SelectionStrategy {
     public Boolean isFinished() {
         int n = shuffledItems.size();
         return this.round == n * n;
+    }
+
+    /**
+     * Excludes an item from the selection process.
+     *
+     * @param itemId the ID of the item to exclude
+     */
+    @Override
+    public void excludeItem(Integer itemId) {
+        excludedItems.add(itemId);
     }
 }

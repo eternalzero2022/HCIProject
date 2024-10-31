@@ -34,4 +34,9 @@ public class VoteController {
     public ResultVO<Boolean> endVoteRound(@PathVariable Integer sessionId) {
         return ResultVO.buildSuccess(voteService.endVoteSession(sessionId));
     }
+
+    @GetMapping("/{sessionId}/exclude")
+    public ResultVO<Boolean> excludeItem(@PathVariable Integer sessionId, @RequestParam Integer itemId) {
+        return ResultVO.buildSuccess(voteService.excludeItem(sessionId, itemId));
+    }
 }

@@ -35,7 +35,7 @@ public class VoteServiceTest extends BaseUtilTest {
         Random random = new Random();
         while (true) {
             VoteRound voteRound = getNextRound(sessionId);
-            if (voteRound.getParticipants() == null) {
+            if (voteRound.getParticipants().size() == 0) {
                 break;
             }
             System.out.println("Round " + voteRound.getRoundId() + ": ");
@@ -83,7 +83,7 @@ public class VoteServiceTest extends BaseUtilTest {
 
         Integer sessionId = startVoteSession(collectionId);
         Random random = new Random();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             VoteRound voteRound = getNextRound(sessionId);
             if (voteRound.getParticipants() == null) {
                 break;

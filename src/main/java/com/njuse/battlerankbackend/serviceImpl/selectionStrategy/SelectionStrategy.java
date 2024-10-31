@@ -8,4 +8,6 @@ public interface SelectionStrategy {
     List<ItemVO> selectNextTwoItems();
 
     Boolean isFinished();
+
+    void excludeItem(Integer itemId);
 }

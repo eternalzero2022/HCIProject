@@ -88,7 +88,7 @@ public class VoteServiceImp implements VoteService {
         List<ItemVO> participants = selectionStrategy.selectNextTwoItems();
 
         voteRound.setParticipants(participants);
-        if (participants != null) {
+        if (!participants.isEmpty()) {
             voteSession.getRoundList().add(voteRound);
             voteSession.getWaitForSubmit().addAndGet(1);
         } else {
@@ -152,7 +152,7 @@ public class VoteServiceImp implements VoteService {
     public Boolean endVoteSessionInner(VoteSession voteSession) {
 
         // Can use cv to improve this
-        while (voteSession.getWaitForSubmit().get() > 1) {
+        if (voteSession.getWaitForSubmit().get() > 1) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -162,6 +162,10 @@ public class VoteServiceImp implements VoteService {
 
         int roundCnt = 0;
         for (VoteRound voteRound : voteSession.getRoundList()) {
+            Integer winnerId = voteRound.getWinner();
+            if (winnerId == null) {
+                continue;
+            }
             List<ItemVO> participants = voteRound.getParticipants();
             Item participant1 = itemService.getItemById(participants.get(0).getItemId());
             Item participant2 = itemService.getItemById(participants.get(1).getItemId());
@@ -169,7 +173,6 @@ public class VoteServiceImp implements VoteService {
             participant2.setVoteCount(participant2.getVoteCount() + 1);
             roundCnt++;
 
-            Integer winnerId = voteRound.getWinner();
             if (winnerId.equals(participant1.getItemId())) {
                 participant1.setWinCount(participant1.getWinCount() + 1);
             } else if (winnerId.equals(participant2.getItemId())) {
@@ -193,8 +196,10 @@ public class VoteServiceImp implements VoteService {
      * @return true, if success
      */
     @Override
-    public Boolean excludeItem(Integer itemId) {
-        return false;
+    public Boolean excludeItem(Integer sessionId, Integer itemId) {
+        VoteSession voteSession = getVoteSession(sessionId);
+        voteSession.getSelectionStrategy().excludeItem(itemId);
+        return true;
     }
 
 

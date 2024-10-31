@@ -14,6 +14,6 @@ public interface VoteService {
 
     Boolean endVoteSession(Integer sessionId);
 
-    Boolean excludeItem(Integer itemId);
+    Boolean excludeItem(Integer sessionId, Integer itemId);
 
 }
