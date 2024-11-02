@@ -3,8 +3,15 @@ package com.njuse.battlerankbackend.enums;
 public enum Category {
     GAME,
     ANIMATION,
-    SPORTS,
+    VIDEO,
+    SPORT,
+    MUSIC,
+    ART,
     FOOD,
-    MEDIA,
-    LIFE
+    LITERATURE,
+    WORLD,
+    LIFE,
+    FANTASY,
+    TECHNOLOGY,
+    OTHER
 }
