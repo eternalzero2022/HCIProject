@@ -39,7 +39,7 @@ public class CollectionController {
         return ResultVO.buildSuccess(collectionService.getCollectionList(category, excludeList, retNum));
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user")
     public ResultVO<List<CollectionVO>> getCollectionListPrivate(@RequestParam(required = false, defaultValue = "") String category){
         return ResultVO.buildSuccess(collectionService.getCollectionListPrivate(category));
     }
