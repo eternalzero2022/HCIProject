@@ -50,7 +50,7 @@ class BattlerankBackendApplicationTests2 {
         Integer id = controller.creatCollection(collectionVO1).getResult();
         Integer id2 = controller.creatCollection(collectionVO2).getResult();
         CollectionVO newCollection = controller.getCollection(id).getResult();
-        List<CollectionVO> voList = controller.getCollectionList(null).getResult();
+        List<CollectionVO> voList = controller.getCollectionList(null,null, 10).getResult();
         List<Item> finaltest = controller.getCollectionItems(id).getResult();
 
         System.out.println(1);

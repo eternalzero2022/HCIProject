@@ -33,8 +33,10 @@ public class CollectionController {
     }
 
     @GetMapping()
-    public ResultVO<List<CollectionVO>> getCollectionList(@RequestParam(required = false, defaultValue = "") String category){
-        return ResultVO.buildSuccess(collectionService.getCollectionList(category));
+    public ResultVO<List<CollectionVO>> getCollectionList(@RequestParam(required = false, defaultValue = "") String category,
+                                                          @RequestBody List<CollectionVO> excludeList,
+                                                          @RequestParam Integer retNum){
+        return ResultVO.buildSuccess(collectionService.getCollectionList(category, excludeList, retNum));
     }
 
     @GetMapping("/{userId}")

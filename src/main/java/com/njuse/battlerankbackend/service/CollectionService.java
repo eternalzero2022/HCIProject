@@ -13,7 +13,7 @@ public interface CollectionService {
 
     List<Item> getCollectionItems(Integer collectionId);
 
-    List<CollectionVO> getCollectionList(String category);
+    List<CollectionVO> getCollectionList(String category, List<CollectionVO> excludeList, Integer retNum);
 
     List<CollectionVO> getCollectionListPrivate(String category);
 

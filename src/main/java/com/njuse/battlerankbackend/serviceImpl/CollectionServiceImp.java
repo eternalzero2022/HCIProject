@@ -78,15 +78,29 @@ public class CollectionServiceImp implements CollectionService {
         return collection.getItems();
     }
     @Override
-    public List<CollectionVO> getCollectionList(String category){
+    public List<CollectionVO> getCollectionList(String category, List<CollectionVO> excludeList, Integer retNum){
         List<CollectionPO> collectionVOS = collectionRepository.findAll();
         List<CollectionVO> result = new ArrayList<>();
         Boolean condition = true;
 
-        if(category == null || category == "")  condition = true;
+        int NumInRetList = 0;
+        if(category == null || category.equals(""))  condition = true;
         for (int i = 0;i <collectionVOS.size();i++){
             if(condition && collectionVOS.get(i).getIsPublic()){ // 条件判断
-                result.add(collectionVOS.get(i).toVO());
+                boolean isInExclude = false;
+                CollectionPO tmp = collectionVOS.get(i);
+
+                for(CollectionVO token: excludeList){
+                    if (token.getCollectionId().intValue() == tmp.getCollectionId().intValue()){
+                        isInExclude = true;
+                        break;
+                    }
+                }
+
+                if (!isInExclude) {
+                    result.add(collectionVOS.get(i).toVO());
+                    if(NumInRetList++ >= retNum) break;
+                }
             }
         }
         return result;
@@ -96,9 +110,9 @@ public class CollectionServiceImp implements CollectionService {
         Integer userId = securityUtil.getCurrentUser().getUserId();
         List<CollectionPO> collectionVOS = collectionRepository.findAll();
         List<CollectionVO> result = new ArrayList<>();
-        Boolean condition = true;
+        boolean condition = true;
 
-        if(category == null || category == "")  condition = true;
+        if(category == null || category.equals(""))  condition = true;
         for (int i = 0;i <collectionVOS.size();i++){
             if(condition && collectionVOS.get(i).getCreatorId().intValue() == userId.intValue()){ // 条件判断,如果是同一个用户才能返回对应集合
                 result.add(collectionVOS.get(i).toVO());
