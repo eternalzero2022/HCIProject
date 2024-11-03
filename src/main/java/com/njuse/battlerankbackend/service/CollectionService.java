@@ -15,5 +15,7 @@ public interface CollectionService {
 
     List<CollectionVO> getCollectionList(String category);
 
+    List<CollectionVO> getCollectionListPrivate(String category);
+
     void increaseVoteCount(Integer collectionId, Integer voteCount);
 }

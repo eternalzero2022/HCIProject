@@ -51,6 +51,10 @@ public class CollectionPO {
     @Column(name = "item")
     private List<Item> items;//新建子表中嵌入Comment中的几条属性comment是embeddable的
 
+    @Basic
+    @Column
+    private Boolean isPublic;
+
     public CollectionVO toVO() {
         CollectionVO collectionVO = new CollectionVO();
         collectionVO.setCollectionId(this.collectionId);
@@ -60,6 +64,7 @@ public class CollectionPO {
         collectionVO.setCreatorId(this.creatorId);
         collectionVO.setCategory(this.category);
         collectionVO.setVoteCount(this.voteCount);
+        collectionVO.setIsPublic(this.isPublic);
         collectionVO.setItems(items.stream().map(Item::toVO).collect(Collectors.toList()));
         return collectionVO;
     }

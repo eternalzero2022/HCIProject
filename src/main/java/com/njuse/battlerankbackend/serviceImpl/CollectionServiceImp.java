@@ -3,6 +3,7 @@ package com.njuse.battlerankbackend.serviceImpl;
 import com.njuse.battlerankbackend.exception.SelfDefineException;
 import com.njuse.battlerankbackend.po.CollectionPO;
 import com.njuse.battlerankbackend.po.Item;
+import com.njuse.battlerankbackend.po.User;
 import com.njuse.battlerankbackend.repository.CollectionRepository;
 import com.njuse.battlerankbackend.service.CollectionService;
 import com.njuse.battlerankbackend.service.ItemService;
@@ -84,11 +85,25 @@ public class CollectionServiceImp implements CollectionService {
 
         if(category == null || category == "")  condition = true;
         for (int i = 0;i <collectionVOS.size();i++){
-            if(condition){ // 条件判断
+            if(condition && collectionVOS.get(i).getIsPublic()){ // 条件判断
                 result.add(collectionVOS.get(i).toVO());
             }
         }
-        System.out.println(result);
+        return result;
+    }
+
+    public List<CollectionVO> getCollectionListPrivate(String category){
+        Integer userId = securityUtil.getCurrentUser().getUserId();
+        List<CollectionPO> collectionVOS = collectionRepository.findAll();
+        List<CollectionVO> result = new ArrayList<>();
+        Boolean condition = true;
+
+        if(category == null || category == "")  condition = true;
+        for (int i = 0;i <collectionVOS.size();i++){
+            if(condition && collectionVOS.get(i).getCreatorId().intValue() == userId.intValue()){ // 条件判断,如果是同一个用户才能返回对应集合
+                result.add(collectionVOS.get(i).toVO());
+            }
+        }
         return result;
     }
 

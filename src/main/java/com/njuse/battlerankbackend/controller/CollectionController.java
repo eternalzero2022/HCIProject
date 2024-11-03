@@ -37,4 +37,9 @@ public class CollectionController {
         return ResultVO.buildSuccess(collectionService.getCollectionList(category));
     }
 
+    @GetMapping("/{userId}")
+    public ResultVO<List<CollectionVO>> getCollectionListPrivate(@RequestParam(required = false, defaultValue = "") String category){
+        return ResultVO.buildSuccess(collectionService.getCollectionListPrivate(category));
+    }
+
 }

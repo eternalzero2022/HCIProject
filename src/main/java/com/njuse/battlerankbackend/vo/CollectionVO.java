@@ -25,6 +25,7 @@ public class CollectionVO {
     private Integer voteCount;
     // List of items included in this collection
     private List<ItemVO> items;
+    private Boolean isPublic;
 
     public CollectionPO toPO() {
         CollectionPO collectionPO = new CollectionPO();
@@ -35,6 +36,7 @@ public class CollectionVO {
         collectionPO.setCategory(this.category);
         collectionPO.setCreatorId(this.creatorId);
         collectionPO.setVoteCount(this.voteCount);
+        collectionPO.setIsPublic(this.isPublic);
         collectionPO.setItems(items.stream().map(ItemVO::toPO).collect(Collectors.toList()));
         return collectionPO;
     }
