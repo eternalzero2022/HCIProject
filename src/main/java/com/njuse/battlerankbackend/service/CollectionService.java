@@ -17,5 +17,9 @@ public interface CollectionService {
 
     List<CollectionVO> getCollectionListPrivate(String category);
 
+    List<CollectionVO> getCollectionHot(Integer retNum);
+
+    List<CollectionVO> getCollectionRecommend(List<CollectionVO> excludeList, Integer retNum);
+
     void increaseVoteCount(Integer collectionId, Integer voteCount);
 }

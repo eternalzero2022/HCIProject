@@ -44,4 +44,15 @@ public class CollectionController {
         return ResultVO.buildSuccess(collectionService.getCollectionListPrivate(category));
     }
 
+    @GetMapping("/recommend")
+    public ResultVO<List<CollectionVO>> getCollectionRecommend(@RequestBody List<CollectionVO> excludeList,
+                                                               @RequestParam Integer retNum){
+        return ResultVO.buildSuccess(collectionService.getCollectionRecommend(excludeList, retNum));
+    }
+
+    @GetMapping("/hot")
+    public ResultVO<List<CollectionVO>> getCollectionHot(@RequestParam Integer retNum){
+        return ResultVO.buildSuccess(collectionService.getCollectionHot(retNum));
+    }
+
 }

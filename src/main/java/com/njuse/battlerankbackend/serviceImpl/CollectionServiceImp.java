@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -99,7 +100,7 @@ public class CollectionServiceImp implements CollectionService {
 
                 if (!isInExclude) {
                     result.add(collectionVOS.get(i).toVO());
-                    if(NumInRetList++ >= retNum) break;
+                    if(++NumInRetList >= retNum) break;
                 }
             }
         }
@@ -116,6 +117,50 @@ public class CollectionServiceImp implements CollectionService {
         for (int i = 0;i <collectionVOS.size();i++){
             if(condition && collectionVOS.get(i).getCreatorId().intValue() == userId.intValue()){ // 条件判断,如果是同一个用户才能返回对应集合
                 result.add(collectionVOS.get(i).toVO());
+            }
+        }
+        return result;
+    }
+
+    public List<CollectionVO> getCollectionHot(Integer retNum){
+        List<CollectionPO> collectionPOS = collectionRepository.findAll();
+        List<CollectionVO> result = new ArrayList<>();
+        //目前先按照投票人数排热门吧（对我们这个简陋的系统也够了），总觉得需要时间这个属性，我后面可以改
+        collectionPOS.sort(Comparator.comparing(CollectionPO::getVoteCount).reversed());
+
+        int MaxNum = 0;
+        for (int i = 0;i <collectionPOS.size();i++){
+            if(collectionPOS.get(i).getIsPublic()){ // 条件判断,如果是同一个用户才能返回对应集合
+
+                result.add(collectionPOS.get(i).toVO());
+                if (++MaxNum >= retNum) break;
+            }
+        }
+        return result;
+    }
+
+    public List<CollectionVO> getCollectionRecommend(List<CollectionVO> excludeList, Integer retNum){
+        List<CollectionPO> collectionPOS = collectionRepository.findAll();
+        List<CollectionVO> result = new ArrayList<>();
+        //目前先按照投票人数排推荐吧（对我们这个简陋的系统也够了），总觉得需要时间这个属性，我后面可以改
+        collectionPOS.sort(Comparator.comparing(CollectionPO::getVoteCount).reversed());
+
+        int MaxNum = 0;
+        for (int i = 0;i <collectionPOS.size();i++){
+            if(collectionPOS.get(i).getIsPublic()){ // 条件判断,如果是同一个用户才能返回对应集合
+                boolean isInExclude = false;
+                CollectionPO tmp = collectionPOS.get(i);
+
+                for(CollectionVO token: excludeList){
+                    if (token.getCollectionId().intValue() == tmp.getCollectionId().intValue()){
+                        isInExclude = true;
+                        break;
+                    }
+                }
+                if(!isInExclude){
+                    result.add(collectionPOS.get(i).toVO());
+                    if (++MaxNum >= retNum) break;
+                }
             }
         }
         return result;
