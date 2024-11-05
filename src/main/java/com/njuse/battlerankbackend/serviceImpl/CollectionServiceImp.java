@@ -79,7 +79,7 @@ public class CollectionServiceImp implements CollectionService {
         return collection.getItems();
     }
     @Override
-    public List<CollectionVO> getCollectionList(String category, List<CollectionVO> excludeList, Integer retNum){
+    public List<CollectionVO> getCollectionList(String category, List<Integer> excludeList, Integer retNum){
         List<CollectionPO> collectionVOS = collectionRepository.findAll();
         List<CollectionVO> result = new ArrayList<>();
         Boolean condition = true;
@@ -91,8 +91,8 @@ public class CollectionServiceImp implements CollectionService {
                 boolean isInExclude = false;
                 CollectionPO tmp = collectionVOS.get(i);
 
-                for(CollectionVO token: excludeList){
-                    if (token.getCollectionId().intValue() == tmp.getCollectionId().intValue()){
+                for(Integer token: excludeList){
+                    if (token.intValue() == tmp.getCollectionId().intValue()){
                         isInExclude = true;
                         break;
                     }
@@ -103,6 +103,11 @@ public class CollectionServiceImp implements CollectionService {
                     if(++NumInRetList >= retNum) break;
                 }
             }
+        }
+        for(int i = excludeList.size()-1; i >= 0; i--){
+            CollectionPO extra = collectionRepository.findByCollectionId(excludeList.get(i));
+            if(NumInRetList ++ >= retNum) break;
+            result.add(extra.toVO());
         }
         return result;
     }
@@ -136,6 +141,7 @@ public class CollectionServiceImp implements CollectionService {
                 if (++MaxNum >= retNum) break;
             }
         }
+
         return result;
     }
 
@@ -162,6 +168,11 @@ public class CollectionServiceImp implements CollectionService {
                     if (++MaxNum >= retNum) break;
                 }
             }
+        }
+        for(int i = excludeList.size()-1; i >= 0; i--){
+            CollectionPO extra = collectionRepository.findByCollectionId(excludeList.get(i));
+            if(MaxNum ++ >= retNum) break;
+            result.add(extra.toVO());
         }
         return result;
     }
