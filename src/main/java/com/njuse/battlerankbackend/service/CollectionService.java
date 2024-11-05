@@ -19,7 +19,7 @@ public interface CollectionService {
 
     List<CollectionVO> getCollectionHot(Integer retNum);
 
-    List<CollectionVO> getCollectionRecommend(List<CollectionVO> excludeList, Integer retNum);
+    List<CollectionVO> getCollectionRecommend(List<Integer> excludeList, Integer retNum);
 
     void increaseVoteCount(Integer collectionId, Integer voteCount);
 }

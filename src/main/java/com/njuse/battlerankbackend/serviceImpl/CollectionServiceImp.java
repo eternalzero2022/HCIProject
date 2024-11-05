@@ -139,7 +139,7 @@ public class CollectionServiceImp implements CollectionService {
         return result;
     }
 
-    public List<CollectionVO> getCollectionRecommend(List<CollectionVO> excludeList, Integer retNum){
+    public List<CollectionVO> getCollectionRecommend(List<Integer> excludeList, Integer retNum){
         List<CollectionPO> collectionPOS = collectionRepository.findAll();
         List<CollectionVO> result = new ArrayList<>();
         //目前先按照投票人数排推荐吧（对我们这个简陋的系统也够了），总觉得需要时间这个属性，我后面可以改
@@ -151,8 +151,8 @@ public class CollectionServiceImp implements CollectionService {
                 boolean isInExclude = false;
                 CollectionPO tmp = collectionPOS.get(i);
 
-                for(CollectionVO token: excludeList){
-                    if (token.getCollectionId().intValue() == tmp.getCollectionId().intValue()){
+                for(Integer token: excludeList){
+                    if (token.intValue() == tmp.getCollectionId().intValue()){
                         isInExclude = true;
                         break;
                     }

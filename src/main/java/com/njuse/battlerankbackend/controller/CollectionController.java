@@ -45,7 +45,7 @@ public class CollectionController {
     }
 
     @GetMapping("/recommend")
-    public ResultVO<List<CollectionVO>> getCollectionRecommend(@RequestBody List<CollectionVO> excludeList,
+    public ResultVO<List<CollectionVO>> getCollectionRecommend(@RequestParam List<Integer> excludeList,
                                                                @RequestParam Integer retNum){
         return ResultVO.buildSuccess(collectionService.getCollectionRecommend(excludeList, retNum));
     }
