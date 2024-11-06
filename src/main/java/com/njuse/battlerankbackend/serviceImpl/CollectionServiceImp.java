@@ -1,5 +1,6 @@
 package com.njuse.battlerankbackend.serviceImpl;
 
+import com.njuse.battlerankbackend.enums.Category;
 import com.njuse.battlerankbackend.exception.SelfDefineException;
 import com.njuse.battlerankbackend.po.CollectionPO;
 import com.njuse.battlerankbackend.po.Item;
@@ -85,9 +86,14 @@ public class CollectionServiceImp implements CollectionService {
         Boolean condition = true;
 
         int NumInRetList = 0;
-        if(category == null || category.equals(""))  condition = true;
+        if(category == null || category.equals(""))  condition = false;
         for (int i = 0;i <collectionVOS.size();i++){
-            if(condition && collectionVOS.get(i).getIsPublic()){ // 条件判断
+            if(collectionVOS.get(i).getIsPublic()){ // 条件判断
+                if(condition){
+                    if(!collectionVOS.get(i).getCategory().equals(Category.valueOf(category))){ //类型不匹配
+                        continue;
+                    }
+                }
                 boolean isInExclude = false;
                 CollectionPO tmp = collectionVOS.get(i);
 
@@ -104,11 +110,9 @@ public class CollectionServiceImp implements CollectionService {
                 }
             }
         }
-        for(int i = excludeList.size()-1; i >= 0; i--){
-            CollectionPO extra = collectionRepository.findByCollectionId(excludeList.get(i));
-            if(NumInRetList ++ >= retNum) break;
-            result.add(extra.toVO());
-        }
+        
+        
+        
         return result;
     }
 
@@ -171,8 +175,9 @@ public class CollectionServiceImp implements CollectionService {
         }
         for(int i = excludeList.size()-1; i >= 0; i--){
             CollectionPO extra = collectionRepository.findByCollectionId(excludeList.get(i));
-            if(MaxNum ++ >= retNum) break;
+            if(MaxNum>= retNum) break;
             result.add(extra.toVO());
+            MaxNum++;
         }
         return result;
     }
