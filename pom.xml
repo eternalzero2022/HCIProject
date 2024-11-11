@@ -79,7 +79,6 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<version>2.1.214</version>  <!-- 注意选择最新的可用版本 -->
 			<scope>test</scope> <!-- 如果只在测试中使用，可以将 scope 设置为 test -->
 		</dependency>
 

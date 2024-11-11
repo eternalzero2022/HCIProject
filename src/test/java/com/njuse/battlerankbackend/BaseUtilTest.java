@@ -17,9 +17,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BaseUtilTest {
@@ -38,6 +35,12 @@ public class BaseUtilTest {
                 .build();
 
         restTemplate.getRestTemplate().setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
+    }
+
+    private HttpHeaders createHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+        return headers;
     }
 
     protected Boolean login(String phone, String password) {
@@ -179,9 +182,30 @@ public class BaseUtilTest {
         return response.getBody().getResult();
     }
 
-    private HttpHeaders createHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
-        return headers;
+    protected Integer getUserVoteCount(Integer collectionId) {
+        HttpHeaders headers = createHeaders();
+
+        ResponseEntity<ResultVO<Integer>> response = restTemplate.exchange(
+                "/api/collections/" + collectionId + "/userVoteCount",
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                new ParameterizedTypeReference<ResultVO<Integer>>() {
+                });
+
+        assert (response.getStatusCodeValue() == 200);
+        return response.getBody().getResult();
+    }
+
+    protected CollectionVO getUserRankCollection(Integer collectionId) {
+        HttpHeaders headers = createHeaders();
+        ResponseEntity<ResultVO<CollectionVO>> response = restTemplate.exchange(
+                "/api/collections/" + collectionId + "/userRank",
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                new ParameterizedTypeReference<ResultVO<CollectionVO>>() {
+                });
+
+        assert (response.getStatusCodeValue() == 200);
+        return response.getBody().getResult();
     }
 }

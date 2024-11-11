@@ -7,6 +7,8 @@ import com.njuse.battlerankbackend.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ItemServiceImp implements ItemService {
 
@@ -21,5 +23,10 @@ public class ItemServiceImp implements ItemService {
     @Override
     public Item saveItem(Item item) {
         return itemRepository.save(item);
+    }
+
+    @Override
+    public List<Item> getItemsByCollectionId(Integer collectionId) {
+        return itemRepository.findByCollectionId(collectionId);
     }
 }

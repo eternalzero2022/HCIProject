@@ -2,6 +2,8 @@ package com.njuse.battlerankbackend.controller;
 
 import com.njuse.battlerankbackend.po.Item;
 import com.njuse.battlerankbackend.service.CollectionService;
+import com.njuse.battlerankbackend.service.VoteRecordService;
+import com.njuse.battlerankbackend.util.SecurityUtil;
 import com.njuse.battlerankbackend.vo.CollectionVO;
 import com.njuse.battlerankbackend.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,13 @@ import java.util.List;
 public class CollectionController {
 
     @Autowired
-    CollectionService collectionService;
+    private CollectionService collectionService;
+
+    @Autowired
+    private VoteRecordService voteRecordService;
+
+    @Autowired
+    private SecurityUtil securityUtil;
 
     @PostMapping()
     public ResultVO<Integer> creatCollection(@RequestBody CollectionVO collectionVO){
@@ -54,6 +62,17 @@ public class CollectionController {
     @GetMapping("/hot")
     public ResultVO<List<CollectionVO>> getCollectionHot(@RequestParam Integer retNum){
         return ResultVO.buildSuccess(collectionService.getCollectionHot(retNum));
+    }
+
+    @GetMapping("/{collectionId}/userVoteCount")
+    public ResultVO<Integer> getUserVoteCount(@PathVariable Integer collectionId){
+        Integer count = voteRecordService.getVoteCount(securityUtil.getCurrentUser().getUserId(), collectionId);
+        return ResultVO.buildSuccess(count);
+    }
+
+    @GetMapping("/{collectionId}/userRank")
+    public ResultVO<CollectionVO> getUserRankCollection(@PathVariable Integer collectionId){
+        return ResultVO.buildSuccess(collectionService.getUserRankCollection(securityUtil.getCurrentUser().getUserId(), collectionId));
     }
 
 }

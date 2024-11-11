@@ -4,6 +4,7 @@ import com.njuse.battlerankbackend.exception.SelfDefineException;
 import com.njuse.battlerankbackend.po.Item;
 import com.njuse.battlerankbackend.service.CollectionService;
 import com.njuse.battlerankbackend.service.ItemService;
+import com.njuse.battlerankbackend.service.VoteRecordService;
 import com.njuse.battlerankbackend.service.VoteService;
 import com.njuse.battlerankbackend.serviceImpl.selectionStrategy.RandomSelectionStrategy;
 import com.njuse.battlerankbackend.serviceImpl.selectionStrategy.SelectionStrategy;
@@ -39,6 +40,9 @@ public class VoteServiceImp implements VoteService {
 
     @Autowired
     private AsyncUtil asyncUtil;
+
+    @Autowired
+    private VoteRecordService voteRecordService;
 
     /**
      * Starts a new voting session for a specified collection.
@@ -186,6 +190,7 @@ public class VoteServiceImp implements VoteService {
         }
         Integer collectionId = voteSession.getCollectionVO().getCollectionId();
         collectionService.increaseVoteCount(collectionId, roundCnt);
+        voteRecordService.saveVoteRecord(voteSession);
         return true;
     }
 

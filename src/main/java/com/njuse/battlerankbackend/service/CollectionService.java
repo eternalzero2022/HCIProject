@@ -22,4 +22,6 @@ public interface CollectionService {
     List<CollectionVO> getCollectionRecommend(List<Integer> excludeList, Integer retNum);
 
     void increaseVoteCount(Integer collectionId, Integer voteCount);
+
+    CollectionVO getUserRankCollection(Integer userId, Integer collectionId);
 }

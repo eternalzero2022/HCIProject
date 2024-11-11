@@ -4,10 +4,10 @@ import com.njuse.battlerankbackend.enums.Category;
 import com.njuse.battlerankbackend.exception.SelfDefineException;
 import com.njuse.battlerankbackend.po.CollectionPO;
 import com.njuse.battlerankbackend.po.Item;
-import com.njuse.battlerankbackend.po.User;
 import com.njuse.battlerankbackend.repository.CollectionRepository;
 import com.njuse.battlerankbackend.service.CollectionService;
 import com.njuse.battlerankbackend.service.ItemService;
+import com.njuse.battlerankbackend.service.VoteRecordService;
 import com.njuse.battlerankbackend.util.SecurityUtil;
 import com.njuse.battlerankbackend.vo.CollectionVO;
 import com.njuse.battlerankbackend.vo.ItemVO;
@@ -31,6 +31,9 @@ public class CollectionServiceImp implements CollectionService {
 
     @Autowired
     private SecurityUtil securityUtil;
+
+    @Autowired
+    private VoteRecordService voteRecordService;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -187,5 +190,17 @@ public class CollectionServiceImp implements CollectionService {
         CollectionPO collection = collectionRepository.findByCollectionId(collectionId);
         collection.setVoteCount(voteCount + collection.getVoteCount());
         collectionRepository.save(collection);
+    }
+
+    @Override
+    public CollectionVO getUserRankCollection(Integer userId, Integer collectionId) {
+        List<ItemVO> items = voteRecordService.getRankByUser(userId, collectionId);
+        CollectionPO collectionPO = collectionRepository.findByCollectionId(collectionId);
+        if (collectionPO == null) {
+            throw SelfDefineException.getCollectionFault();
+        }
+        CollectionVO collectionVO = collectionPO.toVO();
+        collectionVO.setItems(items);
+        return collectionVO;
     }
 }
