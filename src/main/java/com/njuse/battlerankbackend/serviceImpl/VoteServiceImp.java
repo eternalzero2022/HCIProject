@@ -154,6 +154,9 @@ public class VoteServiceImp implements VoteService {
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     public Boolean endVoteSessionInner(VoteSession voteSession) {
+        if (voteSession == null) {
+            return false;
+        }
 
         // Can use cv to improve this
         if (voteSession.getWaitForSubmit().get() > 1) {
@@ -162,6 +165,10 @@ public class VoteServiceImp implements VoteService {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+
+        if (voteSession.getWaitForSubmit().getAndSet(-1) == -1) {
+            return false;
         }
 
         int roundCnt = 0;
@@ -191,6 +198,7 @@ public class VoteServiceImp implements VoteService {
         Integer collectionId = voteSession.getCollectionVO().getCollectionId();
         collectionService.increaseVoteCount(collectionId, roundCnt);
         voteRecordService.saveVoteRecord(voteSession);
+        removeVoteSession(voteSession.getSessionId());
         return true;
     }
 
@@ -248,9 +256,17 @@ public class VoteServiceImp implements VoteService {
             throw SelfDefineException.invalidSessionId();
         }
         VoteSession voteSession = sessionMap.get(sessionId);
-        if (voteSession == null) {
-            throw SelfDefineException.invalidSessionId();
-        }
+//        if (voteSession == null) {
+//            throw SelfDefineException.invalidSessionId();
+//        }
         return voteSession;
+    }
+
+    private void removeVoteSession(Integer sessionId) {
+        Map<Integer, VoteSession> sessionMap = (Map<Integer, VoteSession>) httpServletRequest.getSession().getAttribute("sessions");
+        if (sessionMap == null) {
+            return;
+        }
+        sessionMap.remove(sessionId);
     }
 }

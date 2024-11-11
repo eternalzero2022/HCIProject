@@ -72,7 +72,7 @@ public class CollectionServiceImp implements CollectionService {
     public CollectionVO getCollection(Integer collectionId){
         CollectionPO collection = collectionRepository.findByCollectionId(collectionId);
         if (collection == null) throw SelfDefineException.getCollectionFault();
-
+        collection.getItems().sort(Comparator.comparing(Item::getWinRate).reversed());
         return collection.toVO();
     }
 
