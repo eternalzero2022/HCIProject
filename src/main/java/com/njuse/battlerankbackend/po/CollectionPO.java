@@ -34,7 +34,7 @@ public class CollectionPO {
     private String description;
 
     @Basic
-    @Column
+    @Column(length = 511)
     private String imageUrl;
 
     @Basic

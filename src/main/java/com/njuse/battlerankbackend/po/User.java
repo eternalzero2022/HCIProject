@@ -31,7 +31,7 @@ public class User {
     private String password;
 
     @Basic
-    @Column
+    @Column(length = 511)
     private String imageUrl;
 
     public UserVO toVO(){
