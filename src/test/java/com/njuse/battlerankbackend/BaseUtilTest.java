@@ -208,4 +208,17 @@ public class BaseUtilTest {
         assert (response.getStatusCodeValue() == 200);
         return response.getBody().getResult();
     }
+
+    protected Boolean excludeItem(Integer sessionId, Integer itemId) {
+        HttpHeaders headers = createHeaders();
+        ResponseEntity<ResultVO<Boolean>> response = restTemplate.exchange(
+                "/api/vote/" + sessionId + "/exclude?itemId=" + itemId,
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                new ParameterizedTypeReference<ResultVO<Boolean>>() {
+                });
+
+        assert (response.getStatusCodeValue() == 200);
+        return response.getBody().getResult();
+    }
 }

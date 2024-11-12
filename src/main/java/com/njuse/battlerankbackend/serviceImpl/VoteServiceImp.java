@@ -198,7 +198,7 @@ public class VoteServiceImp implements VoteService {
         Integer collectionId = voteSession.getCollectionVO().getCollectionId();
         collectionService.increaseVoteCount(collectionId, roundCnt);
         voteRecordService.saveVoteRecord(voteSession);
-        removeVoteSession(voteSession.getSessionId());
+//        removeVoteSession(voteSession.getSessionId());
         return true;
     }
 
@@ -212,6 +212,14 @@ public class VoteServiceImp implements VoteService {
     public Boolean excludeItem(Integer sessionId, Integer itemId) {
         VoteSession voteSession = getVoteSession(sessionId);
         voteSession.getSelectionStrategy().excludeItem(itemId);
+        List<VoteRound> roundList = voteSession.getRoundList();
+        VoteRound lastRound = roundList.get(roundList.size() - 1);
+        if (!lastRound.getParticipants().get(0).getItemId().equals(itemId) &&
+            !lastRound.getParticipants().get(1).getItemId().equals(itemId)) {
+            return false;
+        }
+        roundList.remove(roundList.size() - 1);
+        voteSession.setCurrentRoundId(voteSession.getCurrentRoundId() - 1);
         return true;
     }
 
@@ -262,11 +270,11 @@ public class VoteServiceImp implements VoteService {
         return voteSession;
     }
 
-    private void removeVoteSession(Integer sessionId) {
-        Map<Integer, VoteSession> sessionMap = (Map<Integer, VoteSession>) httpServletRequest.getSession().getAttribute("sessions");
-        if (sessionMap == null) {
-            return;
-        }
-        sessionMap.remove(sessionId);
-    }
+//    private void removeVoteSession(Integer sessionId) {
+//        Map<Integer, VoteSession> sessionMap = (Map<Integer, VoteSession>) httpServletRequest.getSession().getAttribute("sessions");
+//        if (sessionMap == null) {
+//            return;
+//        }
+//        sessionMap.remove(sessionId);
+//    }
 }
