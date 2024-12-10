@@ -93,7 +93,7 @@ public class CollectionServiceImp implements CollectionService {
         int NumInRetList = 0;
         if(category == null || category.equals(""))  condition = false;
         for (int i = 0;i <collectionVOS.size();i++){
-            if(collectionVOS.get(i).getIsPublic()){ // 条件判断
+            if(collectionVOS.get(i).getIsPublic() != null && collectionVOS.get(i).getIsPublic()){ // 添加空值检查
                 if(condition){
                     if(!collectionVOS.get(i).getCategory().equals(Category.valueOf(category))){ //类型不匹配
                         continue;
@@ -246,7 +246,7 @@ public class CollectionServiceImp implements CollectionService {
                     matchScore = 100;
                 } else {
                     // 部分关键词匹配
-                    // 跳���第一个关键词(完整词)以避免重复计算
+                    // 跳过第一个关键词(完整词)以避免重复计算
                     for (int i = 1; i < keywords.size(); i++) {
                         String keyword = keywords.get(i);
                         if (name.contains(keyword)) {
