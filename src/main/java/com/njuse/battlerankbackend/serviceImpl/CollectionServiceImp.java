@@ -139,30 +139,34 @@ public class CollectionServiceImp implements CollectionService {
     public List<CollectionVO> getCollectionHot(Integer retNum){
         List<CollectionPO> collectionPOS = collectionRepository.findAll();
         List<CollectionVO> result = new ArrayList<>();
-        //目前先按照投票人数排热门吧（对我们这个简陋的系统也够了），总觉得需要时间这个属性，我后面可以改
-        collectionPOS.sort(Comparator.comparing(CollectionPO::getVoteCount).reversed());
+        collectionPOS.sort((a, b) -> {
+            if (a.getVoteCount() == null) return 1;
+            if (b.getVoteCount() == null) return -1;
+            return b.getVoteCount().compareTo(a.getVoteCount());
+        });
 
         int MaxNum = 0;
         for (int i = 0;i <collectionPOS.size();i++){
-            if(collectionPOS.get(i).getIsPublic()){ // 条件判断,如果是同一个用户才能返回对应集合
-
+            if(collectionPOS.get(i).getIsPublic()){ 
                 result.add(collectionPOS.get(i).toVO());
                 if (++MaxNum >= retNum) break;
             }
         }
-
         return result;
     }
 
     public List<CollectionVO> getCollectionRecommend(List<Integer> excludeList, Integer retNum){
         List<CollectionPO> collectionPOS = collectionRepository.findAll();
         List<CollectionVO> result = new ArrayList<>();
-        //目前先按照投票人数排推荐吧（对我们这个简陋的系统也够了），总觉得需要时间这个属性，我后面可以改
-        collectionPOS.sort(Comparator.comparing(CollectionPO::getVoteCount).reversed());
+        collectionPOS.sort((a, b) -> {
+            if (a.getVoteCount() == null) return 1;
+            if (b.getVoteCount() == null) return -1;
+            return b.getVoteCount().compareTo(a.getVoteCount());
+        });
 
         int MaxNum = 0;
         for (int i = 0;i <collectionPOS.size();i++){
-            if(collectionPOS.get(i).getIsPublic()){ // 条件判断,如果是同一个用户才能返回对应集合
+            if(collectionPOS.get(i).getIsPublic()){ 
                 boolean isInExclude = false;
                 CollectionPO tmp = collectionPOS.get(i);
 
