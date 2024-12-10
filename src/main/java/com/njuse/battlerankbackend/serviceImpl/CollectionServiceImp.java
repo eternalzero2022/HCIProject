@@ -129,7 +129,7 @@ public class CollectionServiceImp implements CollectionService {
 
         if(category == null || category.equals(""))  condition = true;
         for (int i = 0;i <collectionVOS.size();i++){
-            if(condition && collectionVOS.get(i).getCreatorId().intValue() == userId.intValue()){ // 条件判断,如果是同一个用户才��返回对应集合
+            if(condition && collectionVOS.get(i).getCreatorId().intValue() == userId.intValue()){ // 条件判断,如果是同一个用户才能返回对应集合
                 result.add(collectionVOS.get(i).toVO());
             }
         }
@@ -211,8 +211,23 @@ public class CollectionServiceImp implements CollectionService {
         // 1. 获取所有公开的集合
         List<CollectionPO> allCollections = collectionRepository.findAllPublicCollections();
         
-        // 2. 将搜索内容分词
-        String[] keywords = content.toLowerCase().split("\\s+");
+        // 2. 准备搜索关键词
+        List<String> keywords = new ArrayList<>();
+        String all_content = content.toLowerCase();
+        keywords.add(all_content);
+
+        // 当内容长度>=4时,将内容分成3份
+        if(content.length() >= 4) {
+            int len = content.length();
+            int partLen = len / 3;
+            // 如果不能整除,调整分段长度确保覆盖所有字符
+            int remainLen = len % 3;
+            // 添加分段关键词
+            keywords.add(content.substring(0, partLen + (remainLen > 0 ? 1 : 0)));
+            keywords.add(content.substring(partLen + (remainLen > 0 ? 1 : 0), 
+                partLen * 2 + (remainLen > 1 ? 1 : 0)));
+            keywords.add(content.substring(partLen * 2 + (remainLen > 1 ? 1 : 0)));
+        }
         
         // 3. 计算每个集合的匹配度并排序
         return allCollections.stream()
@@ -221,11 +236,13 @@ public class CollectionServiceImp implements CollectionService {
                 int matchScore = 0;
                 
                 // 完全匹配得分最高
-                if (name.contains(content.toLowerCase())) {
+                if (name.contains(all_content)) {
                     matchScore = 100;
                 } else {
                     // 部分关键词匹配
-                    for (String keyword : keywords) {
+                    // 跳过第一个关键词(完整词)以避免重复计算
+                    for (int i = 1; i < keywords.size(); i++) {
+                        String keyword = keywords.get(i);
                         if (name.contains(keyword)) {
                             matchScore += 50;
                         }
@@ -234,8 +251,8 @@ public class CollectionServiceImp implements CollectionService {
                 
                 return new AbstractMap.SimpleEntry<>(collection, matchScore);
             })
-            .filter(entry -> entry.getValue() > 0) // 只返回有匹配的结果
-            .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue())) // 按匹配度降序排序
+            .filter(entry -> entry.getValue() > 0)
+            .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
             .map(entry -> entry.getKey().toVO())
             .collect(Collectors.toList());
     }
