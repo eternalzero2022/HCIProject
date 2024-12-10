@@ -208,36 +208,35 @@ public class CollectionServiceImp implements CollectionService {
 
     @Override
     public List<CollectionVO> searchCollections(String content) {
-        // // 1. 获取所有公开的集合
-        // List<CollectionPO> allCollections = collectionRepository.findAllPublicCollections();
+        // 1. 获取所有公开的集合
+        List<CollectionPO> allCollections = collectionRepository.findAllPublicCollections();
         
-        // // 2. 将搜索内容分词
-        // String[] keywords = content.toLowerCase().split("\\s+");
+        // 2. 将搜索内容分词
+        String[] keywords = content.toLowerCase().split("\\s+");
         
-        // // 3. 计算每个集合的匹配度并排序
-        // return allCollections.stream()
-        //     .map(collection -> {
-        //         String name = collection.getCollectionName().toLowerCase();
-        //         int matchScore = 0;
+        // 3. 计算每个集合的匹配度并排序
+        return allCollections.stream()
+            .map(collection -> {
+                String name = collection.getCollectionName().toLowerCase();
+                int matchScore = 0;
                 
-        //         // 完全匹配得分最高
-        //         if (name.contains(content.toLowerCase())) {
-        //             matchScore = 100;
-        //         } else {
-        //             // 部分关键词匹配
-        //             for (String keyword : keywords) {
-        //                 if (name.contains(keyword)) {
-        //                     matchScore += 50;
-        //                 }
-        //             }
-        //         }
+                // 完全匹配得分最高
+                if (name.contains(content.toLowerCase())) {
+                    matchScore = 100;
+                } else {
+                    // 部分关键词匹配
+                    for (String keyword : keywords) {
+                        if (name.contains(keyword)) {
+                            matchScore += 50;
+                        }
+                    }
+                }
                 
-        //         return new AbstractMap.SimpleEntry<>(collection, matchScore);
-        //     })
-        //     .filter(entry -> entry.getValue() > 0) // 只返回有匹配的结果
-        //     .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue())) // 按匹配度降序排序
-        //     .map(entry -> entry.getKey().toVO())
-        //     .collect(Collectors.toList());
-        return null;
+                return new AbstractMap.SimpleEntry<>(collection, matchScore);
+            })
+            .filter(entry -> entry.getValue() > 0) // 只返回有匹配的结果
+            .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue())) // 按匹配度降序排序
+            .map(entry -> entry.getKey().toVO())
+            .collect(Collectors.toList());
     }
 }
