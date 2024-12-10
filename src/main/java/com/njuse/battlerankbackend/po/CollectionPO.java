@@ -52,8 +52,8 @@ public class CollectionPO {
     private List<Item> items;//新建子表中嵌入Comment中的几条属性comment是embeddable的
 
     @Basic
-    @Column
-    private Boolean isPublic;
+    @Column(name = "is_public")
+    private Boolean isPublic = true;
 
     public CollectionVO toVO() {
         CollectionVO collectionVO = new CollectionVO();

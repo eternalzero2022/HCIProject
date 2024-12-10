@@ -147,7 +147,7 @@ public class CollectionServiceImp implements CollectionService {
 
         int MaxNum = 0;
         for (int i = 0;i <collectionPOS.size();i++){
-            if(collectionPOS.get(i).getIsPublic()){ 
+            if(collectionPOS.get(i).getIsPublic() != null && collectionPOS.get(i).getIsPublic()){ 
                 result.add(collectionPOS.get(i).toVO());
                 if (++MaxNum >= retNum) break;
             }
@@ -166,7 +166,7 @@ public class CollectionServiceImp implements CollectionService {
 
         int MaxNum = 0;
         for (int i = 0;i <collectionPOS.size();i++){
-            if(collectionPOS.get(i).getIsPublic()){ 
+            if(collectionPOS.get(i).getIsPublic() != null && collectionPOS.get(i).getIsPublic()){ 
                 boolean isInExclude = false;
                 CollectionPO tmp = collectionPOS.get(i);
 
@@ -212,8 +212,10 @@ public class CollectionServiceImp implements CollectionService {
 
     @Override
     public List<CollectionVO> searchCollections(String content) {
-        // 1. 获取所有公开的集合
         List<CollectionPO> allCollections = collectionRepository.findAllPublicCollections();
+        if (allCollections == null || allCollections.isEmpty()) {
+            return new ArrayList<>();
+        }
         
         // 2. 准备搜索关键词
         List<String> keywords = new ArrayList<>();
@@ -244,7 +246,7 @@ public class CollectionServiceImp implements CollectionService {
                     matchScore = 100;
                 } else {
                     // 部分关键词匹配
-                    // 跳过第一个关键词(完整词)以避免重复计算
+                    // 跳���第一个关键词(完整词)以避免重复计算
                     for (int i = 1; i < keywords.size(); i++) {
                         String keyword = keywords.get(i);
                         if (name.contains(keyword)) {
