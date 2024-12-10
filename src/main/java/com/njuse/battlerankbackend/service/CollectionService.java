@@ -24,4 +24,6 @@ public interface CollectionService {
     void increaseVoteCount(Integer collectionId, Integer voteCount);
 
     CollectionVO getUserRankCollection(Integer userId, Integer collectionId);
+
+    List<CollectionVO> searchCollections(String content);
 }

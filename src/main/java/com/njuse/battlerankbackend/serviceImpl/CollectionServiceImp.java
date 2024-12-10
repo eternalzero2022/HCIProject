@@ -16,9 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CollectionServiceImp implements CollectionService {
@@ -127,7 +129,7 @@ public class CollectionServiceImp implements CollectionService {
 
         if(category == null || category.equals(""))  condition = true;
         for (int i = 0;i <collectionVOS.size();i++){
-            if(condition && collectionVOS.get(i).getCreatorId().intValue() == userId.intValue()){ // 条件判断,如果是同一个用户才能返回对应集合
+            if(condition && collectionVOS.get(i).getCreatorId().intValue() == userId.intValue()){ // 条件判断,如果是同一个用户才��返回对应集合
                 result.add(collectionVOS.get(i).toVO());
             }
         }
@@ -202,5 +204,40 @@ public class CollectionServiceImp implements CollectionService {
         CollectionVO collectionVO = collectionPO.toVO();
         collectionVO.setItems(items);
         return collectionVO;
+    }
+
+    @Override
+    public List<CollectionVO> searchCollections(String content) {
+        // // 1. 获取所有公开的集合
+        // List<CollectionPO> allCollections = collectionRepository.findAllPublicCollections();
+        
+        // // 2. 将搜索内容分词
+        // String[] keywords = content.toLowerCase().split("\\s+");
+        
+        // // 3. 计算每个集合的匹配度并排序
+        // return allCollections.stream()
+        //     .map(collection -> {
+        //         String name = collection.getCollectionName().toLowerCase();
+        //         int matchScore = 0;
+                
+        //         // 完全匹配得分最高
+        //         if (name.contains(content.toLowerCase())) {
+        //             matchScore = 100;
+        //         } else {
+        //             // 部分关键词匹配
+        //             for (String keyword : keywords) {
+        //                 if (name.contains(keyword)) {
+        //                     matchScore += 50;
+        //                 }
+        //             }
+        //         }
+                
+        //         return new AbstractMap.SimpleEntry<>(collection, matchScore);
+        //     })
+        //     .filter(entry -> entry.getValue() > 0) // 只返回有匹配的结果
+        //     .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue())) // 按匹配度降序排序
+        //     .map(entry -> entry.getKey().toVO())
+        //     .collect(Collectors.toList());
+        return null;
     }
 }

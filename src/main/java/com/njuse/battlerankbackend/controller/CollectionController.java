@@ -75,4 +75,9 @@ public class CollectionController {
         return ResultVO.buildSuccess(collectionService.getUserRankCollection(securityUtil.getCurrentUser().getUserId(), collectionId));
     }
 
+    @GetMapping("/search")
+    public ResultVO<List<CollectionVO>> searchCollections(@RequestParam String content) {
+        return ResultVO.buildSuccess(collectionService.searchCollections(content));
+    }
+
 }
