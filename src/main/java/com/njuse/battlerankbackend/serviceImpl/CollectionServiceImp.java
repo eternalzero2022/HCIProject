@@ -4,15 +4,18 @@ import com.njuse.battlerankbackend.enums.Category;
 import com.njuse.battlerankbackend.exception.SelfDefineException;
 import com.njuse.battlerankbackend.po.CollectionPO;
 import com.njuse.battlerankbackend.po.Item;
+import com.njuse.battlerankbackend.po.UserProfile;
 import com.njuse.battlerankbackend.po.VoteRecord;
 import com.njuse.battlerankbackend.repository.CollectionRepository;
 import com.njuse.battlerankbackend.service.CollectionService;
 import com.njuse.battlerankbackend.service.ItemService;
+import com.njuse.battlerankbackend.service.UserProfileService;
 import com.njuse.battlerankbackend.service.VoteRecordService;
 import com.njuse.battlerankbackend.util.SecurityUtil;
 import com.njuse.battlerankbackend.vo.CollectionVO;
 import com.njuse.battlerankbackend.vo.ItemVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +40,10 @@ public class CollectionServiceImp implements CollectionService {
 
     @Autowired
     private VoteRecordService voteRecordService;
+
+    @Lazy
+    @Autowired
+    private UserProfileService userProfileService;
 
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -294,5 +301,41 @@ public class CollectionServiceImp implements CollectionService {
         collectionIds = collectionIds.stream().distinct().toList();
         List<CollectionPO> collectionPOS = collectionRepository.findByCollectionIdIn(collectionIds);
         return collectionPOS.stream().map(CollectionPO::toVO).toList();
+    }
+
+    @Override
+    public Boolean likeCollection(Integer userId, Integer collectionId) {
+        if (!userProfileService.addLikeCollection(userId, collectionId)) return false;
+        CollectionPO collectionPO = collectionRepository.findByCollectionId(collectionId);
+        collectionPO.setLikes(collectionPO.getLikes() + 1);
+        collectionRepository.save(collectionPO);
+        return true;
+    }
+
+    @Override
+    public Boolean unlikeCollection(Integer userId, Integer collectionId) {
+        if (!userProfileService.unlikeCollection(userId, collectionId)) return false;
+        CollectionPO collectionPO = collectionRepository.findByCollectionId(collectionId);
+        collectionPO.setLikes(collectionPO.getLikes() - 1);
+        collectionRepository.save(collectionPO);
+        return true;
+    }
+
+    @Override
+    public Boolean favoriteCollection(Integer userId, Integer collectionId) {
+        if (!userProfileService.addFavouriteCollection(userId, collectionId)) return false;
+        CollectionPO collectionPO = collectionRepository.findByCollectionId(collectionId);
+        collectionPO.setFavorites(collectionPO.getFavorites() + 1);
+        collectionRepository.save(collectionPO);
+        return true;
+    }
+
+    @Override
+    public Boolean unfavoriteCollection(Integer userId, Integer collectionId) {
+        if (!userProfileService.unfavouriteCollection(userId, collectionId)) return false;
+        CollectionPO collectionPO = collectionRepository.findByCollectionId(collectionId);
+        collectionPO.setFavorites(collectionPO.getFavorites() - 1);
+        collectionRepository.save(collectionPO);
+        return true;
     }
 }

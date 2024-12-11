@@ -33,4 +33,12 @@ public interface CollectionService {
     List<CollectionVO> getCollectionsByCreator(Integer userId);
 
     List<CollectionVO> getUserVotedCollections(Integer userId);
+
+    Boolean likeCollection(Integer userId, Integer collectionId);
+
+    Boolean unlikeCollection(Integer userId, Integer collectionId);
+
+    Boolean favoriteCollection(Integer userId, Integer collectionId);
+
+    Boolean unfavoriteCollection(Integer userId, Integer collectionId);
 }

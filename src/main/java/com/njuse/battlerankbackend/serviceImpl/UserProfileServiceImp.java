@@ -33,14 +33,78 @@ public class UserProfileServiceImp implements UserProfileService {
     }
 
     @Override
-    public void addFavouriteCollection(Integer userId, Integer collectionId) {
+    public Boolean addFavouriteCollection(Integer userId, Integer collectionId) {
         UserProfile userProfile = userProfileRepository.findByUserId(userId);
         if (userProfile == null) {
             userProfile = new UserProfile(userId);
         }
+        if (hasFavouriteCollection(userId, collectionId)) {
+            return false;
+        }
         CollectionPO collection = collectionService.getCollectionPO(collectionId);
         userProfile.getFavoriteCollections().add(collection);
         userProfileRepository.save(userProfile);
+        return true;
+    }
+
+    @Override
+    public Boolean addLikeCollection(Integer userId, Integer collectionId) {
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        if (userProfile == null) {
+            userProfile = new UserProfile(userId);
+        }
+        if (hasLikedCollection(userId, collectionId)) {
+            return false;
+        }
+        userProfile.getLikedCollections().add(collectionId);
+        userProfileRepository.save(userProfile);
+        return true;
+    }
+
+    @Override
+    public Boolean hasLikedCollection(Integer userId, Integer collectionId) {
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        if (userProfile == null) {
+            userProfile = new UserProfile(userId);
+        }
+        return userProfile.getLikedCollections().contains(collectionId);
+    }
+
+    @Override
+    public Boolean hasFavouriteCollection(Integer userId, Integer collectionId) {
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        if (userProfile == null) {
+            userProfile = new UserProfile(userId);
+        }
+        return userProfile.getFavoriteCollections().stream().anyMatch(collection -> collection.getCollectionId().equals(collectionId));
+    }
+
+    @Override
+    public Boolean unlikeCollection(Integer userId, Integer collectionId) {
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        if (userProfile == null) {
+            userProfile = new UserProfile(userId);
+        }
+        if (!hasLikedCollection(userId, collectionId)) {
+            return false;
+        }
+        userProfile.getLikedCollections().remove(collectionId);
+        userProfileRepository.save(userProfile);
+        return true;
+    }
+
+    @Override
+    public Boolean unfavouriteCollection(Integer userId, Integer collectionId) {
+        UserProfile userProfile = userProfileRepository.findByUserId(userId);
+        if (userProfile == null) {
+            userProfile = new UserProfile(userId);
+        }
+        if (!hasFavouriteCollection(userId, collectionId)) {
+            return false;
+        }
+        userProfile.getFavoriteCollections().removeIf(collection -> collection.getCollectionId().equals(collectionId));
+        userProfileRepository.save(userProfile);
+        return true;
     }
 
     @Override

@@ -2,15 +2,14 @@ package com.njuse.battlerankbackend.controller;
 
 import com.njuse.battlerankbackend.po.Item;
 import com.njuse.battlerankbackend.service.CollectionService;
+import com.njuse.battlerankbackend.service.UserProfileService;
 import com.njuse.battlerankbackend.service.VoteRecordService;
 import com.njuse.battlerankbackend.util.SecurityUtil;
 import com.njuse.battlerankbackend.vo.CollectionVO;
 import com.njuse.battlerankbackend.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,6 +24,9 @@ public class CollectionController {
 
     @Autowired
     private SecurityUtil securityUtil;
+
+    @Autowired
+    private UserProfileService userProfileService;
 
     @PostMapping()
     public ResultVO<Integer> creatCollection(@RequestBody CollectionVO collectionVO){
@@ -78,6 +80,36 @@ public class CollectionController {
     @GetMapping("/search")
     public ResultVO<List<CollectionVO>> searchCollections(@RequestParam String content) {
         return ResultVO.buildSuccess(collectionService.searchCollections(content));
+    }
+
+    @PostMapping("/{collectionId}/like")
+    public ResultVO<Boolean> likeCollection(@PathVariable Integer collectionId){
+        return ResultVO.buildSuccess(collectionService.likeCollection(securityUtil.getCurrentUser().getUserId(), collectionId));
+    }
+
+    @DeleteMapping("{collectionId}/like")
+    public ResultVO<Boolean> unlikeCollection(@PathVariable Integer collectionId){
+        return ResultVO.buildSuccess(collectionService.unlikeCollection(securityUtil.getCurrentUser().getUserId(), collectionId));
+    }
+
+    @PostMapping("{collectionId}/favorite")
+    public ResultVO<Boolean> favoriteCollection(@PathVariable Integer collectionId){
+        return ResultVO.buildSuccess(collectionService.favoriteCollection(securityUtil.getCurrentUser().getUserId(), collectionId));
+    }
+
+    @DeleteMapping("{collectionId}/favorite")
+    public ResultVO<Boolean> unfavoriteCollection(@PathVariable Integer collectionId){
+        return ResultVO.buildSuccess(collectionService.unfavoriteCollection(securityUtil.getCurrentUser().getUserId(), collectionId));
+    }
+
+    @GetMapping("{collectionId}/has-liked")
+    public ResultVO<Boolean> hasLiked(@PathVariable Integer collectionId){
+        return ResultVO.buildSuccess(userProfileService.hasLikedCollection(securityUtil.getCurrentUser().getUserId(), collectionId));
+    }
+
+    @GetMapping("{collectionId}/has-favorite")
+    public ResultVO<Boolean> hasFavorite(@PathVariable Integer collectionId){
+        return ResultVO.buildSuccess(userProfileService.hasFavouriteCollection(securityUtil.getCurrentUser().getUserId(), collectionId));
     }
 
 }
