@@ -11,4 +11,6 @@ public interface UserService {
     UserVO getUser();
 
     UserVO getUserById(Integer userId);
+
+    Boolean updateUser(UserVO userVO);
 }

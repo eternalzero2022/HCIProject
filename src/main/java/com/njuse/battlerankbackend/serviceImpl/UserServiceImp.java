@@ -18,6 +18,8 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     SecurityUtil securityUtil;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public Boolean register(UserVO userVO){
@@ -65,4 +67,25 @@ public class UserServiceImp implements UserService {
         return user.toVO();
     }
 
+    @Override
+    public Boolean updateUser(UserVO userVO) {
+        User user = userRepos.findByUserId(userVO.getUserId());
+        if(user == null){
+            throw SelfDefineException.userNotFound();
+        }
+        if (userVO.getPassword() != null) {
+            user.setPassword(userVO.getPassword());
+        }
+        if (userVO.getUsername() != null) {
+            user.setUsername(userVO.getUsername());
+        }
+        if (userVO.getImageUrl() != null) {
+            user.setImageUrl(userVO.getImageUrl());
+        }
+        if (securityUtil.getCurrentUser().getUserId().equals(user.getUserId())) {
+            securityUtil.setCurrentUser(user);
+        }
+        userRepos.save(user);
+        return true;
+    }
 }

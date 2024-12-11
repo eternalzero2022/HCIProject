@@ -46,4 +46,9 @@ public class UserController {
     public ResultVO<UserVO> getUserById(@PathVariable Integer userId) {
         return ResultVO.buildSuccess(userService.getUserById(userId));
     }
+
+    @PutMapping("/update")
+    public ResultVO<Boolean> updateUser(@RequestBody UserVO user) {
+        return ResultVO.buildSuccess(userService.updateUser(user));
+    }
 }
