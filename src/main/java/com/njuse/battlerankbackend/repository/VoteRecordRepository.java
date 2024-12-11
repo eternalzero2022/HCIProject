@@ -10,6 +10,8 @@ public interface VoteRecordRepository extends JpaRepository<VoteRecord, Integer>
 
     List<VoteRecord> findByUserIdAndCollectionId(Integer userId, Integer collectionId);
 
+    List<VoteRecord> findByUserId(Integer userId);
+
     @Query("SELECT COUNT(v) FROM VoteRecord v " +
             "WHERE v.userId = :userId AND v.collectionId = :collectionId")
     Integer countTotalVoteByUserIdAndCollectionId(Integer userId, Integer collectionId);

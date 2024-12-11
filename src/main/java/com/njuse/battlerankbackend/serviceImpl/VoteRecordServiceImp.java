@@ -66,7 +66,7 @@ public class VoteRecordServiceImp implements VoteRecordService {
             item2.setWinRate(1f * item2.getWinCount() / item2.getVoteCount());
         }
 
-        itemVOS.sort(Comparator.comparing(ItemVO::getWinCount).reversed());
+        itemVOS.sort(Comparator.comparing(ItemVO::getWinRate).reversed());
         return itemVOS;
     }
 
@@ -93,4 +93,10 @@ public class VoteRecordServiceImp implements VoteRecordService {
             voteRecordRepo.save(voteRecord);
         }
     }
+
+    @Override
+    public List<VoteRecord> getVoteRecordByUser(Integer userId) {
+        return voteRecordRepo.findByUserId(userId);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.njuse.battlerankbackend.service;
 
+import com.njuse.battlerankbackend.po.VoteRecord;
 import com.njuse.battlerankbackend.vo.CollectionVO;
 import com.njuse.battlerankbackend.vo.ItemVO;
 import com.njuse.battlerankbackend.vo.VoteSession;
@@ -12,4 +13,6 @@ public interface VoteRecordService {
     List<ItemVO> getRankByUser(Integer userId, Integer collectionId);
 
     void saveVoteRecord(VoteSession voteSession);
+
+    List<VoteRecord> getVoteRecordByUser(Integer userId);
 }

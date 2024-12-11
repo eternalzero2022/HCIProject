@@ -4,6 +4,7 @@ import com.njuse.battlerankbackend.enums.Category;
 import com.njuse.battlerankbackend.exception.SelfDefineException;
 import com.njuse.battlerankbackend.po.CollectionPO;
 import com.njuse.battlerankbackend.po.Item;
+import com.njuse.battlerankbackend.po.VoteRecord;
 import com.njuse.battlerankbackend.repository.CollectionRepository;
 import com.njuse.battlerankbackend.service.CollectionService;
 import com.njuse.battlerankbackend.service.ItemService;
@@ -262,5 +263,20 @@ public class CollectionServiceImp implements CollectionService {
             .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
             .map(entry -> entry.getKey().toVO())
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CollectionVO> getCollectionsByCreator(Integer userId) {
+        List<CollectionPO> collectionPOS = collectionRepository.findByCreatorId(userId);
+        return collectionPOS.stream().map(CollectionPO::toVO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CollectionVO> getUserVotedCollections(Integer userId) {
+        List<VoteRecord> voteRecords = voteRecordService.getVoteRecordByUser(userId);
+        List<Integer> collectionIds = voteRecords.stream().map(VoteRecord::getCollectionId).toList();
+        collectionIds = collectionIds.stream().distinct().toList();
+        List<CollectionPO> collectionPOS = collectionRepository.findByCollectionIdIn(collectionIds);
+        return collectionPOS.stream().map(CollectionPO::toVO).toList();
     }
 }

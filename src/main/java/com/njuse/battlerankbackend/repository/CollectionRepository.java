@@ -9,7 +9,12 @@ import java.util.List;
 
 public interface CollectionRepository extends JpaRepository<CollectionPO, Integer> {
     CollectionPO findByCollectionId(Integer CollectionId);
-    CollectionPO findByCollectionNameAndCreatorId(String name, Integer createrId);
+
+    CollectionPO findByCollectionNameAndCreatorId(String name, Integer creatorId);
+
+    List<CollectionPO> findByCreatorId(Integer creatorId);
+
+    List<CollectionPO> findByCollectionIdIn(List<Integer> collectionIds);
 
     @Query("SELECT c FROM CollectionPO c WHERE c.isPublic = true AND LOWER(c.collectionName) LIKE LOWER(CONCAT('%', :content, '%'))")
     List<CollectionPO> findByCollectionNameContainingIgnoreCase(@Param("content") String content);

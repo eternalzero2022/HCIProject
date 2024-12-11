@@ -26,4 +26,8 @@ public interface CollectionService {
     CollectionVO getUserRankCollection(Integer userId, Integer collectionId);
 
     List<CollectionVO> searchCollections(String content);
+
+    List<CollectionVO> getCollectionsByCreator(Integer userId);
+
+    List<CollectionVO> getUserVotedCollections(Integer userId);
 }
