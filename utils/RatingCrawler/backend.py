@@ -9,6 +9,7 @@ REGISTER = 'api/users/register'
 LOGIN = 'api/users/login'
 GET_USER = 'api/users'
 CREATE_COLLECTION = 'api/collections'
+UPLOAD = 'api/images'
 
 PHONE = '1223341434'
 PASSWORD = '123456'
@@ -53,3 +54,13 @@ class Backend:
         # print(data)
         response = requests.post(url, headers=headers, json=data)
         print(response.text)
+
+    def upload(self, file_path):
+        file = {'file': open(file_path, 'rb')}
+        url = f'http://{SERVER}/{UPLOAD}'
+        headers = {
+            'Cookie': self.cookie,
+        }
+        response = requests.post(url, headers=headers, files=file)
+        json_data = response.json()
+        return json_data['result']

@@ -4,6 +4,7 @@ spring:
     username: root
     password: 123456
 
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -12,8 +13,9 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
   servlet:
-      max-file-size: 300MB
-      max-request-size: 300MB
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 server:
   port: 8080

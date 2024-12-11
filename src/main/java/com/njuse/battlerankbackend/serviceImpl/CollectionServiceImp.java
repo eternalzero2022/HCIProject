@@ -47,6 +47,7 @@ public class CollectionServiceImp implements CollectionService {
         newCollection.setCreatorId(creatorId);
         newCollection.setVoteCount(0);
         newCollection.setItems(new ArrayList<>());
+        if (newCollection.getIsPublic() == null) newCollection.setIsPublic(true);
         newCollection = collectionRepository.save(newCollection);
 
 //        isAlreadyExist = collectionRepository.findByCollectionNameAndCreaterId(collectionName, creatorId);

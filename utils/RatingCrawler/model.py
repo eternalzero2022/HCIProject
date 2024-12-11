@@ -63,14 +63,20 @@ class User:
             "userId": self.user_id,
             "username": self.username
         }
-
 class Category(Enum):
-    ANIMATION = "ANIMATION"
-    FOOD = "FOOD"
     GAME = "GAME"
+    ANIMATION = "ANIMATION"
+    VIDEO = "VIDEO"
+    SPORT = "SPORT"
+    MUSIC = "MUSIC"
+    ART = "ART"
+    FOOD = "FOOD"
+    LITERATURE = "LITERATURE"
+    WORLD = "WORLD"
     LIFE = "LIFE"
-    MEDIA = "MEDIA"
-    SPORTS = "SPORTS"
+    FANTASY = "FANTASY"
+    TECHNOLOGY = "TECHNOLOGY"
+    OTHER = "OTHER"
 
 @dataclass
 class Collection:

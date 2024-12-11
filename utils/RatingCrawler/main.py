@@ -1,6 +1,8 @@
 from crawler import get_collection_by_id
 from model import Category
 from backend import Backend
+from image import download_image
+from concurrent.futures import ThreadPoolExecutor
 
 def main():
     backend = Backend()
@@ -10,9 +12,9 @@ def main():
         print(f"{index}. {category.value}")
     while True:
         try:
-            category_choice = int(input("请输入类别数字（1-6）: "))
+            category_choice = int(input("请输入类别数字（1-13）: "))
             print(category_choice)
-            if 1 <= category_choice <= 6:
+            if 1 <= category_choice <= 13:
                 selected_category = list(Category)[category_choice - 1]
                 break
             else:
@@ -23,7 +25,18 @@ def main():
     collection = get_collection_by_id(request_id)
     collection.category = selected_category
     print(collection.output())
+
     
+    image_path = download_image(collection.image_url)
+    collection.image_url = backend.upload(image_path)
+    
+    def update_image(item):
+        item.image_url = backend.upload(download_image(item.image_url))
+
+    with ThreadPoolExecutor(max_workers=4) as excutor:
+        list(excutor.map(update_image, collection.items))
+        
+
     confirm = input("您是否确认？ (y/n): ").strip().lower()
     if confirm == 'y':
         backend.create_collection(collection)
