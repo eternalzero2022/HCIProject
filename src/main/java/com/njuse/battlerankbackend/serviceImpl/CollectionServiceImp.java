@@ -50,6 +50,8 @@ public class CollectionServiceImp implements CollectionService {
         newCollection.setCreatorId(creatorId);
         newCollection.setVoteCount(0);
         newCollection.setItems(new ArrayList<>());
+        newCollection.setLikes(0);
+        newCollection.setFavorites(0);
         if (newCollection.getIsPublic() == null) newCollection.setIsPublic(true);
         newCollection = collectionRepository.save(newCollection);
 
@@ -81,6 +83,14 @@ public class CollectionServiceImp implements CollectionService {
     }
 
     @Override
+    public CollectionPO getCollectionPO(Integer collectionId) {
+        CollectionPO collection = collectionRepository.findByCollectionId(collectionId);
+        if (collection == null) throw SelfDefineException.getCollectionFault();
+        collection.getItems().sort(Comparator.comparing(Item::getWinRate).reversed());
+        return collection;
+    }
+
+    @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public List<Item> getCollectionItems(Integer collectionId){
         CollectionPO collection = collectionRepository.findByCollectionId(collectionId);
@@ -95,6 +105,12 @@ public class CollectionServiceImp implements CollectionService {
         int NumInRetList = 0;
         if(category == null || category.equals(""))  condition = false;
         for (int i = 0;i <collectionVOS.size();i++){
+            // Backward Compatibility
+            if (collectionVOS.get(i).getLikes() == null) {
+                collectionVOS.get(i).setLikes(0);
+                collectionVOS.get(i).setFavorites(0);
+                collectionRepository.save(collectionVOS.get(i));
+            }
             if(collectionVOS.get(i).getIsPublic() != null && collectionVOS.get(i).getIsPublic()){ // 添加空值检查
                 if(condition){
                     if(!collectionVOS.get(i).getCategory().equals(Category.valueOf(category))){ //类型不匹配

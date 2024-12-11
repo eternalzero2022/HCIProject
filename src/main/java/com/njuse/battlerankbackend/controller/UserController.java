@@ -46,14 +46,4 @@ public class UserController {
     public ResultVO<UserVO> getUserById(@PathVariable Integer userId) {
         return ResultVO.buildSuccess(userService.getUserById(userId));
     }
-
-    @GetMapping("/created")
-    public ResultVO<List<CollectionVO>> getUserCreated() {
-        return ResultVO.buildSuccess(collectionService.getCollectionsByCreator(securityUtil.getCurrentUser().getUserId()));
-    }
-
-    @GetMapping("/voted")
-    public ResultVO<List<CollectionVO>> getUserVoted() {
-        return ResultVO.buildSuccess(collectionService.getUserVotedCollections(securityUtil.getCurrentUser().getUserId()));
-    }
 }

@@ -1,5 +1,6 @@
 package com.njuse.battlerankbackend.service;
 
+import com.njuse.battlerankbackend.po.CollectionPO;
 import com.njuse.battlerankbackend.po.Item;
 import com.njuse.battlerankbackend.vo.CollectionVO;
 import com.njuse.battlerankbackend.vo.ItemVO;
@@ -10,6 +11,8 @@ public interface CollectionService {
     Integer creatCollection(CollectionVO collection);
 
     CollectionVO getCollection(Integer collectionId);
+
+    CollectionPO getCollectionPO(Integer collectionId);
 
     List<Item> getCollectionItems(Integer collectionId);
 

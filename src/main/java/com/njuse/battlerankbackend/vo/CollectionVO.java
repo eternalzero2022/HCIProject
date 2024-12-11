@@ -26,6 +26,8 @@ public class CollectionVO {
     // List of items included in this collection
     private List<ItemVO> items;
     private Boolean isPublic;
+    private Integer likes;
+    private Integer favorites;
 
     public CollectionPO toPO() {
         CollectionPO collectionPO = new CollectionPO();
@@ -37,6 +39,8 @@ public class CollectionVO {
         collectionPO.setCreatorId(this.creatorId);
         collectionPO.setVoteCount(this.voteCount);
         collectionPO.setIsPublic(this.isPublic);
+        collectionPO.setLikes(this.likes);
+        collectionPO.setFavorites(this.favorites);
         collectionPO.setItems(items.stream().map(ItemVO::toPO).collect(Collectors.toList()));
         return collectionPO;
     }

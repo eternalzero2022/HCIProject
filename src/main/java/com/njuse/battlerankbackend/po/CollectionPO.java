@@ -2,11 +2,13 @@ package com.njuse.battlerankbackend.po;
 
 import com.njuse.battlerankbackend.enums.Category;
 import com.njuse.battlerankbackend.vo.CollectionVO;
+import com.njuse.battlerankbackend.vo.ItemVO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,6 +57,14 @@ public class CollectionPO {
     @Column(name = "is_public")
     private Boolean isPublic = true;
 
+    @Basic
+    @Column
+    private Integer likes;
+
+    @Basic
+    @Column
+    private Integer favorites;
+
     public CollectionVO toVO() {
         CollectionVO collectionVO = new CollectionVO();
         collectionVO.setCollectionId(this.collectionId);
@@ -65,7 +75,10 @@ public class CollectionPO {
         collectionVO.setCategory(this.category);
         collectionVO.setVoteCount(this.voteCount);
         collectionVO.setIsPublic(this.isPublic);
+        collectionVO.setLikes(this.likes);
+        collectionVO.setFavorites(this.favorites);
         collectionVO.setItems(items.stream().map(Item::toVO).collect(Collectors.toList()));
+        collectionVO.getItems().sort(Comparator.comparing(ItemVO::getWinRate).reversed());
         return collectionVO;
     }
 }
