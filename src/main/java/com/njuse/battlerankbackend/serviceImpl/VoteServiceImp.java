@@ -4,6 +4,7 @@ import com.njuse.battlerankbackend.exception.SelfDefineException;
 import com.njuse.battlerankbackend.po.Item;
 import com.njuse.battlerankbackend.po.User;
 import com.njuse.battlerankbackend.service.*;
+import com.njuse.battlerankbackend.serviceImpl.selectionStrategy.RandomOptimizedSelectionStrategy;
 import com.njuse.battlerankbackend.serviceImpl.selectionStrategy.RandomSelectionStrategy;
 import com.njuse.battlerankbackend.serviceImpl.selectionStrategy.SelectionStrategy;
 import com.njuse.battlerankbackend.util.AsyncUtil;
@@ -71,8 +72,8 @@ public class VoteServiceImp implements VoteService {
         voteSession.setWaitForSubmit(new AtomicInteger(0));
         voteSession.setRoundList(new ArrayList<>());
 
-        voteSession.setSelectionStrategy(new RandomSelectionStrategy(voteSession));
-
+//        voteSession.setSelectionStrategy(new RandomSelectionStrategy(voteSession));
+        voteSession.setSelectionStrategy(new RandomOptimizedSelectionStrategy(voteSession));
         saveVoteSession(voteSession);
 
         return sessionId;
