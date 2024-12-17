@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,7 +83,6 @@ public class CollectionServiceImp implements CollectionService {
     public CollectionVO getCollection(Integer collectionId){
         CollectionPO collection = collectionRepository.findByCollectionId(collectionId);
         if (collection == null) throw SelfDefineException.getCollectionFault();
-        collection.getItems().sort(Comparator.comparing(Item::getWinRate).reversed());
         return collection.toVO();
     }
 
@@ -92,7 +90,6 @@ public class CollectionServiceImp implements CollectionService {
     public CollectionPO getCollectionPO(Integer collectionId) {
         CollectionPO collection = collectionRepository.findByCollectionId(collectionId);
         if (collection == null) throw SelfDefineException.getCollectionFault();
-        collection.getItems().sort(Comparator.comparing(Item::getWinRate).reversed());
         return collection;
     }
 
@@ -344,4 +341,5 @@ public class CollectionServiceImp implements CollectionService {
         collectionRepository.save(collectionPO);
         return true;
     }
+
 }

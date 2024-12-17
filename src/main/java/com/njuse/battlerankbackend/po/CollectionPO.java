@@ -78,7 +78,14 @@ public class CollectionPO {
         collectionVO.setLikes(this.likes);
         collectionVO.setFavorites(this.favorites);
         collectionVO.setItems(items.stream().map(Item::toVO).collect(Collectors.toList()));
-        collectionVO.getItems().sort(Comparator.comparing(ItemVO::getWinRate).reversed());
+        collectionVO.getItems().sort(this::itemComparator);
         return collectionVO;
+    }
+
+    private int itemComparator(ItemVO it1, ItemVO it2) {
+        if (it1.getWinRate().equals(it2.getWinRate())) {
+            return it2.getVoteCount().compareTo(it1.getVoteCount());
+        }
+        return it2.getWinRate().compareTo(it1.getWinRate());
     }
 }
