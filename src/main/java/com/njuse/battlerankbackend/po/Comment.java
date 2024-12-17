@@ -7,7 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 @Data
 @Builder
@@ -41,7 +43,9 @@ public class Comment {
         commentVO.setUser(user.toVO());
         commentVO.setCollectionId(collection.getCollectionId());
         commentVO.setComment(comment);
-        commentVO.setCreateTime(createTime);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        commentVO.setCreateTime(sdf.format(createTime));
         commentVO.getUser().setPassword("");
         return commentVO;
     }
