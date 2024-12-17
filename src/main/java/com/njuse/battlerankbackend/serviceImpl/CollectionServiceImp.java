@@ -283,7 +283,7 @@ public class CollectionServiceImp implements CollectionService {
 /*                System.out.println(matchScore);*/
                 return new AbstractMap.SimpleEntry<>(collection, matchScore);
             })
-            .filter(entry -> entry.getValue() >= 0)
+            .filter(entry -> entry.getValue() > 0)
             .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
             .map(entry -> entry.getKey().toVO())
             .collect(Collectors.toList());
