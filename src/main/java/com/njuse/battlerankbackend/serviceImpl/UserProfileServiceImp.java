@@ -28,6 +28,7 @@ public class UserProfileServiceImp implements UserProfileService {
             userProfile = new UserProfile(userId);
         }
         CollectionPO collection = collectionService.getCollectionPO(collectionId);
+        userProfile.getVotedCollections().remove(collection);
         userProfile.getVotedCollections().add(collection);
         userProfileRepository.save(userProfile);
     }
