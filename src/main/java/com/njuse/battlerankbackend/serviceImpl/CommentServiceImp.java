@@ -3,9 +3,12 @@ package com.njuse.battlerankbackend.serviceImpl;
 import com.njuse.battlerankbackend.exception.SelfDefineException;
 import com.njuse.battlerankbackend.po.CollectionPO;
 import com.njuse.battlerankbackend.po.Comment;
+import com.njuse.battlerankbackend.po.User;
 import com.njuse.battlerankbackend.repository.CommentRepository;
+import com.njuse.battlerankbackend.repository.UserRepository;
 import com.njuse.battlerankbackend.service.CollectionService;
 import com.njuse.battlerankbackend.service.CommentService;
+import com.njuse.battlerankbackend.service.UserService;
 import com.njuse.battlerankbackend.util.SecurityUtil;
 import com.njuse.battlerankbackend.vo.CommentVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,8 @@ public class CommentServiceImp implements CommentService {
 
     @Autowired
     private SecurityUtil securityUtil;
+    @Autowired
+    private UserService userService;
 
     @Override
     public List<CommentVO> getCommentsByCollectionId(Integer collectionId) {
@@ -41,7 +46,11 @@ public class CommentServiceImp implements CommentService {
         }
         Comment comment = new Comment();
         comment.setCommentId(0);
-        comment.setUser(securityUtil.getCurrentUser());
+        if (commentVO.getUser() != null && commentVO.getUser().getUserId() != null) {
+            comment.setUser(userService.getUserPO(commentVO.getUser().getUserId()));
+        } else {
+            comment.setUser(securityUtil.getCurrentUser());
+        }
         comment.setCollection(collection);
         comment.setComment(commentVO.getComment());
         comment.setCreateTime(new Date());
@@ -54,4 +63,6 @@ public class CommentServiceImp implements CommentService {
         commentRepository.deleteById(commentId);
         return true;
     }
+
+
 }

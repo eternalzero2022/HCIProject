@@ -1,5 +1,6 @@
 package com.njuse.battlerankbackend.service;
 
+import com.njuse.battlerankbackend.po.User;
 import com.njuse.battlerankbackend.vo.UserVO;
 import jakarta.servlet.http.HttpSession;
 
@@ -13,4 +14,6 @@ public interface UserService {
     UserVO getUserById(Integer userId);
 
     Boolean updateUser(UserVO userVO);
+
+    User getUserPO(Integer userId);
 }

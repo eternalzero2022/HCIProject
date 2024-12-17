@@ -88,4 +88,9 @@ public class UserServiceImp implements UserService {
         userRepos.save(user);
         return true;
     }
+
+    @Override
+    public User getUserPO(Integer userId) {
+        return userRepository.findById(userId).orElseThrow(SelfDefineException::userNotFound);
+    }
 }
