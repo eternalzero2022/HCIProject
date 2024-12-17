@@ -4,7 +4,6 @@ import com.njuse.battlerankbackend.enums.Category;
 import com.njuse.battlerankbackend.exception.SelfDefineException;
 import com.njuse.battlerankbackend.po.CollectionPO;
 import com.njuse.battlerankbackend.po.Item;
-import com.njuse.battlerankbackend.po.UserProfile;
 import com.njuse.battlerankbackend.po.VoteRecord;
 import com.njuse.battlerankbackend.repository.CollectionRepository;
 import com.njuse.battlerankbackend.service.CollectionService;
@@ -261,9 +260,11 @@ public class CollectionServiceImp implements CollectionService {
         }
         
         // 3. 计算每个集合的匹配度并排序
-        return allCollections.stream()
+        List<CollectionVO> result = allCollections.stream()
             .map(collection -> {
                 String name = collection.getCollectionName().toLowerCase();
+/*                System.out.print(name + " ");
+                System.out.print(all_content + ":");*/
                 int matchScore = 0;
                 
                 // 完全匹配得分最高
@@ -279,13 +280,18 @@ public class CollectionServiceImp implements CollectionService {
                         }
                     }
                 }
-                
+/*                System.out.println(matchScore);*/
                 return new AbstractMap.SimpleEntry<>(collection, matchScore);
             })
-            .filter(entry -> entry.getValue() > 0)
+            .filter(entry -> entry.getValue() >= 0)
             .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
             .map(entry -> entry.getKey().toVO())
             .collect(Collectors.toList());
+        //遍历result中Collection的name
+        for (int i = 0; i < result.size();i++){
+            System.out.println(result.get(i).getCollectionName());
+        }
+        return result;
     }
 
     @Override
