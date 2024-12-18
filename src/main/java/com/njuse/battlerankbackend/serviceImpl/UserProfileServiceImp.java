@@ -9,6 +9,8 @@ import com.njuse.battlerankbackend.vo.CollectionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -115,8 +117,10 @@ public class UserProfileServiceImp implements UserProfileService {
             userProfile = new UserProfile(userId);
             userProfileRepository.save(userProfile);
         }
-        return userProfile.getFavoriteCollections()
-                .stream().map(CollectionPO::toVO).toList();
+        List<CollectionVO> collectionList = new ArrayList<>(userProfile.getFavoriteCollections()
+                .stream().map(CollectionPO::toVO).toList());
+        Collections.reverse(collectionList);
+        return collectionList;
     }
 
     @Override
@@ -126,12 +130,17 @@ public class UserProfileServiceImp implements UserProfileService {
             userProfile = new UserProfile(userId);
             userProfileRepository.save(userProfile);
         }
-        return userProfile.getVotedCollections()
-                .stream().map(CollectionPO::toVO).toList();
+
+        List<CollectionVO> collectionList = new ArrayList<>(userProfile.getVotedCollections()
+                .stream().map(CollectionPO::toVO).toList());
+        Collections.reverse(collectionList);
+        return collectionList;
     }
 
     @Override
     public List<CollectionVO> getCreatedCollections(Integer userId) {
-        return collectionService.getCollectionsByCreator(userId);
+        List<CollectionVO> collectionList = collectionService.getCollectionsByCreator(userId);
+        Collections.reverse(collectionList);
+        return collectionList;
     }
 }
