@@ -132,7 +132,7 @@ public class UserProfileServiceImp implements UserProfileService {
         }
 
         List<CollectionVO> collectionList = new ArrayList<>(userProfile.getVotedCollections()
-                .stream().map(CollectionPO::toVO).toList());
+                .stream().map(CollectionPO::toVO).distinct().toList());
         Collections.reverse(collectionList);
         return collectionList;
     }
