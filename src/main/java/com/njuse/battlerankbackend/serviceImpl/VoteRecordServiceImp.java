@@ -1,6 +1,7 @@
 package com.njuse.battlerankbackend.serviceImpl;
 
 import com.njuse.battlerankbackend.exception.SelfDefineException;
+import com.njuse.battlerankbackend.po.CollectionPO;
 import com.njuse.battlerankbackend.po.Item;
 import com.njuse.battlerankbackend.po.VoteRecord;
 import com.njuse.battlerankbackend.repository.VoteRecordRepository;
@@ -66,7 +67,7 @@ public class VoteRecordServiceImp implements VoteRecordService {
             item2.setWinRate(1f * item2.getWinCount() / item2.getVoteCount());
         }
 
-        itemVOS.sort(Comparator.comparing(ItemVO::getWinRate).reversed());
+        itemVOS.sort(CollectionPO::itemComparator);
         return itemVOS;
     }
 
