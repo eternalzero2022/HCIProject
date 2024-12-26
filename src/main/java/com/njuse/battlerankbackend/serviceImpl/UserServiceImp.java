@@ -1,5 +1,6 @@
 package com.njuse.battlerankbackend.serviceImpl;
 
+import com.njuse.battlerankbackend.enums.RoleEnum;
 import com.njuse.battlerankbackend.exception.SelfDefineException;
 import com.njuse.battlerankbackend.po.User;
 import com.njuse.battlerankbackend.repository.UserRepository;
@@ -28,6 +29,7 @@ public class UserServiceImp implements UserService {
             throw SelfDefineException.phoneAlreadyExits();
         }
         User newUser = userVO.toPO();
+        newUser.setRole(RoleEnum.USER);
         userRepos.save(newUser);
         return true;
     }
