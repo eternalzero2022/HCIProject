@@ -21,11 +21,9 @@ public class ApiCallListenServiceImpl implements ApiCallListenService {
     @Override
     @KafkaListener(topics = "api-call-record", groupId = "api-call-record-listener")
     public void listen(String apiCallMessage) {
-        System.out.printf("ApiCallRecordListener Consumed message: %s%n", apiCallMessage);
         try{
             ApiCallRecord record = objectMapper.readValue(apiCallMessage, ApiCallRecord.class);
             redisTemplate.opsForZSet().incrementScore("api:call-count",record, 1);
-
         }catch (Exception e){
             logger.error("An error occurred: ", e); // 使用日志记录异常
         }
