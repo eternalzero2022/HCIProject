@@ -3,8 +3,6 @@ spring:
     url: jdbc:mysql://172.29.4.63:3306/BattleRank?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
     username: sprooc
     password: 123456
-
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -16,6 +14,12 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+
+  data:
+    redis:
+      port: 6379
+      host: 172.29.4.63
+      database: 0
 
 server:
   port: 8080

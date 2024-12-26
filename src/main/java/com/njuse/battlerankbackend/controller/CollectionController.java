@@ -1,5 +1,6 @@
 package com.njuse.battlerankbackend.controller;
 
+import com.njuse.battlerankbackend.aop.TakeCount;
 import com.njuse.battlerankbackend.po.Item;
 import com.njuse.battlerankbackend.service.CollectionService;
 import com.njuse.battlerankbackend.service.UserProfileService;
@@ -33,6 +34,7 @@ public class CollectionController {
         return ResultVO.buildSuccess(collectionService.creatCollection(collectionVO));
     }
 
+    @TakeCount
     @GetMapping("/{collectionId}")
     public ResultVO<CollectionVO> getCollection(@PathVariable Integer collectionId){
         return ResultVO.buildSuccess(collectionService.getCollection(collectionId));
@@ -43,6 +45,7 @@ public class CollectionController {
         return ResultVO.buildSuccess(collectionService.getCollectionItems(collectionId));
     }
 
+    @TakeCount
     @GetMapping()
     public ResultVO<List<CollectionVO>> getCollectionList(@RequestParam(required = false, defaultValue = "") String category,
                                                           @RequestParam(required = false, defaultValue = "") List<Integer> excludeList,
@@ -55,12 +58,14 @@ public class CollectionController {
         return ResultVO.buildSuccess(collectionService.getCollectionListPrivate(category));
     }
 
+    @TakeCount
     @GetMapping("/recommend")
     public ResultVO<List<CollectionVO>> getCollectionRecommend(@RequestParam(required = false,defaultValue = "") List<Integer> excludeList,
                                                                @RequestParam Integer retNum){
         return ResultVO.buildSuccess(collectionService.getCollectionRecommend(excludeList, retNum));
     }
 
+    @TakeCount
     @GetMapping("/hot")
     public ResultVO<List<CollectionVO>> getCollectionHot(@RequestParam Integer retNum){
         return ResultVO.buildSuccess(collectionService.getCollectionHot(retNum));
