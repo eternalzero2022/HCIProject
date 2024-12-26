@@ -1,5 +1,6 @@
 package com.njuse.battlerankbackend.controller;
 
+import com.njuse.battlerankbackend.aop.TakeCount;
 import com.njuse.battlerankbackend.service.CollectionService;
 import com.njuse.battlerankbackend.service.UserService;
 import com.njuse.battlerankbackend.util.SecurityUtil;
@@ -37,6 +38,7 @@ public class UserController {
         return ResultVO.buildSuccess(result);
     }
 
+    @TakeCount
     @GetMapping()
     public ResultVO<UserVO> getUser() {
         return ResultVO.buildSuccess(userService.getUser());

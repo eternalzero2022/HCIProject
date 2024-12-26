@@ -3,6 +3,8 @@ spring:
     url: jdbc:mysql://172.29.4.63:3306/BattleRank?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
     username: sprooc
     password: 123456
+
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -20,6 +22,16 @@ spring:
       port: 6379
       host: 172.29.4.63
       database: 0
+      
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: api-call-record-listener
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 server:
   port: 8080
