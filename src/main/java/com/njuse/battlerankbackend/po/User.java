@@ -1,6 +1,7 @@
 package com.njuse.battlerankbackend.po;
 
 
+import com.njuse.battlerankbackend.enums.RoleEnum;
 import com.njuse.battlerankbackend.vo.UserVO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -34,6 +35,10 @@ public class User {
     @Column(length = 511)
     private String imageUrl;
 
+    @Basic
+    @Column
+    private RoleEnum role;
+
     public UserVO toVO(){
         UserVO userVO = new UserVO();
         userVO.setUserId(this.userId);
@@ -41,6 +46,7 @@ public class User {
         userVO.setPhone(this.phone);
         userVO.setPassword(this.password);
         userVO.setImageUrl(this.imageUrl);
+        userVO.setRole(this.role);
         return userVO;
     }
 }

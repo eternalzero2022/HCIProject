@@ -1,5 +1,6 @@
 package com.njuse.battlerankbackend.vo;
 
+import com.njuse.battlerankbackend.enums.RoleEnum;
 import com.njuse.battlerankbackend.po.User;
 import lombok.Data;
 import lombok.Getter;
@@ -13,6 +14,7 @@ public class UserVO {
     private String phone;
     private String password;
     private String imageUrl;
+    private RoleEnum role;
 
     public User toPO(){
         User user = new User();
@@ -21,6 +23,7 @@ public class UserVO {
         user.setPhone(this.phone);
         user.setPassword(this.password);
         user.setImageUrl(this.imageUrl);
+        user.setRole(this.role);
         return user;
     }
 }

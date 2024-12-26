@@ -49,4 +49,6 @@ public class SelfDefineException extends RuntimeException{
     public static SelfDefineException userNotFound() {
         return new SelfDefineException("用户不存在");
     }
+
+    public static SelfDefineException noPermission() { return new SelfDefineException("无权限"); }
 }
