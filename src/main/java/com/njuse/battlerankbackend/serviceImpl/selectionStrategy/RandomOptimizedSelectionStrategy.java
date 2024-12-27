@@ -5,6 +5,7 @@ import com.njuse.battlerankbackend.vo.ItemVO;
 import com.njuse.battlerankbackend.vo.VoteSession;
 import org.antlr.v4.runtime.misc.Pair;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +18,9 @@ import java.util.Random;
  * making the selection more randomly and also ensuring that no item is selected more than once 
  * in the current voting round.
  */
-public class RandomOptimizedSelectionStrategy implements SelectionStrategy{
+public class RandomOptimizedSelectionStrategy implements SelectionStrategy, Serializable {
+
+    private static final long serialVersionUID = 1L;
     
     private final VoteSession voteSession;
     

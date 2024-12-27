@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,7 +29,8 @@ public class Comment {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "cid")
+    @JoinColumn(name = "cid", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private CollectionPO collection;
 
     @Basic

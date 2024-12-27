@@ -4,6 +4,7 @@ import com.njuse.battlerankbackend.po.User;
 import com.njuse.battlerankbackend.serviceImpl.selectionStrategy.SelectionStrategy;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -17,7 +18,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * only during the voting session.
  */
 @Data
-public class VoteSession {
+public class VoteSession implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Integer sessionId;
 

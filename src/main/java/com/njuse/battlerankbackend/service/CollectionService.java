@@ -41,4 +41,6 @@ public interface CollectionService {
     Boolean favoriteCollection(Integer userId, Integer collectionId);
 
     Boolean unfavoriteCollection(Integer userId, Integer collectionId);
+
+    Boolean removeCollection(Integer collectionId);
 }

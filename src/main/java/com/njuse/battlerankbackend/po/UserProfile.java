@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,19 +26,21 @@ public class UserProfile {
     @JoinTable(
             name = "profile_favor_collection",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "cid")
+            inverseJoinColumns = @JoinColumn(name = "cid", foreignKey = @ForeignKey(name = "fk_fv_collection"))
     )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<CollectionPO> favoriteCollections;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "profile_voted_collection",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "cid")
+            inverseJoinColumns = @JoinColumn(name = "cid", foreignKey = @ForeignKey(name = "fk_vt_collection"))
     )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<CollectionPO> votedCollections;
 
-
+    // Deprecated
     @ElementCollection
     private Set<Integer> likedCollections;
 

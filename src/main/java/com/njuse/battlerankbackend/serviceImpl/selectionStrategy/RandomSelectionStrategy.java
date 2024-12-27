@@ -4,6 +4,7 @@ package com.njuse.battlerankbackend.serviceImpl.selectionStrategy;
 import com.njuse.battlerankbackend.vo.ItemVO;
 import com.njuse.battlerankbackend.vo.VoteSession;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -15,7 +16,9 @@ import java.util.List;
  * based on a specific mapping approach, ensuring that no item is selected more than
  * once in the current voting round.
  */
-public class RandomSelectionStrategy implements SelectionStrategy {
+public class RandomSelectionStrategy implements SelectionStrategy, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private final VoteSession voteSession;
     private final List<ItemVO> shuffledItems;

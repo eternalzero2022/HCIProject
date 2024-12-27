@@ -342,4 +342,10 @@ public class CollectionServiceImp implements CollectionService {
         return true;
     }
 
+    @Override
+    public  Boolean removeCollection(Integer collectionId) {
+        collectionRepository.deleteById(collectionId);
+
+        return true;
+    }
 }

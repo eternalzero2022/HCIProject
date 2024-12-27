@@ -108,6 +108,7 @@ public class VoteServiceImp implements VoteService {
                 });
             }
         }
+        saveVoteSession(voteSession);
 
         return voteRound;
     }
@@ -136,7 +137,7 @@ public class VoteServiceImp implements VoteService {
         }
         voteSession.getWaitForSubmit().addAndGet(-1);
         voteRound.setWinner(winnerId);
-
+        saveVoteSession(voteSession);
         return true;
     }
 
@@ -226,6 +227,7 @@ public class VoteServiceImp implements VoteService {
         }
         roundList.remove(roundList.size() - 1);
         voteSession.setCurrentRoundId(voteSession.getCurrentRoundId() - 1);
+        saveVoteSession(voteSession);
         return true;
     }
 
@@ -253,9 +255,9 @@ public class VoteServiceImp implements VoteService {
         Map<Integer, VoteSession> sessionMap = (Map<Integer, VoteSession>) httpServletRequest.getSession().getAttribute("sessions");
         if (sessionMap == null) {
             sessionMap = new HashMap<>();
-            httpServletRequest.getSession().setAttribute("sessions", sessionMap);
         }
         sessionMap.put(voteSession.getSessionId(), voteSession);
+        httpServletRequest.getSession().setAttribute("sessions", sessionMap);
     }
 
     /**

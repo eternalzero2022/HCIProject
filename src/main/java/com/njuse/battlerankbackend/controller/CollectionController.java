@@ -119,4 +119,9 @@ public class CollectionController {
         return ResultVO.buildSuccess(userProfileService.hasFavouriteCollection(securityUtil.getCurrentUser().getUserId(), collectionId));
     }
 
+    @DeleteMapping("/{collectionId}")
+    public ResultVO<Boolean> deleteCollection(@PathVariable Integer collectionId){
+        return ResultVO.buildSuccess(collectionService.removeCollection(collectionId));
+    }
+
 }

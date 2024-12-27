@@ -5,10 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemVO {
+public class ItemVO implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Integer itemId;
     private String itemName;
     private String description;

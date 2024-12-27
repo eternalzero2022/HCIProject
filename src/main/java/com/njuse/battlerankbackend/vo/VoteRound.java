@@ -2,6 +2,7 @@ package com.njuse.battlerankbackend.vo;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -14,7 +15,9 @@ import java.util.List;
  * only during the voting session.
  */
 @Data
-public class VoteRound {
+public class VoteRound implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Integer roundId;
 

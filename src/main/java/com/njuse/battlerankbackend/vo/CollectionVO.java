@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,7 +15,8 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CollectionVO {
+public class CollectionVO implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Integer collectionId;
     private String collectionName;
     private Category category;
