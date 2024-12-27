@@ -21,8 +21,7 @@ public class SecurityUtil {
     private RedisTemplate redisTemplate;
 
     public User getCurrentUser() {
-        String sessionId = request.getSession().getId();
-        User user = (User) redisTemplate.opsForValue().get(sessionId + ":user");
+        User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
             throw SelfDefineException.notLogin();
         }
@@ -30,8 +29,7 @@ public class SecurityUtil {
     }
 
     public void setCurrentUser(User user) {
-        String sessionId = request.getSession().getId();
-        redisTemplate.opsForValue().set(sessionId + ":user", user, 30, TimeUnit.MINUTES);
+        request.getSession().setAttribute("user", user);
     }
 
 }

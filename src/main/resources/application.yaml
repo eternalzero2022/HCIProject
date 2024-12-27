@@ -22,7 +22,14 @@ spring:
       port: 6379
       host: 172.29.4.63
       database: 0
-      
+
+  session:
+    redis:
+      namespace: "session"
+      flush-mode: on_save
+      save-mode: always
+
+
   kafka:
     bootstrap-servers: localhost:9092
     producer:

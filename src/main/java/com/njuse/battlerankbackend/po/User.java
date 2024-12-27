@@ -8,12 +8,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity // 支出该Java类为实体类,将映射到指定数据库
 @Table(name = "\"user\"")
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id // key
     @Column(name = "uid")
