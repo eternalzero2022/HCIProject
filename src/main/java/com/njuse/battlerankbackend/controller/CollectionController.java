@@ -120,6 +120,7 @@ public class CollectionController {
     }
 
     @DeleteMapping("/{collectionId}")
+    @RoleAuthorization(RoleEnum.ADMIN)
     public ResultVO<Boolean> deleteCollection(@PathVariable Integer collectionId){
         return ResultVO.buildSuccess(collectionService.removeCollection(collectionId));
     }
