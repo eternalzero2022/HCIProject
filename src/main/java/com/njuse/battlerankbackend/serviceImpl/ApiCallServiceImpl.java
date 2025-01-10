@@ -1,5 +1,7 @@
 package com.njuse.battlerankbackend.serviceImpl;
 
+import com.njuse.battlerankbackend.aop.RoleAuthorization;
+import com.njuse.battlerankbackend.enums.RoleEnum;
 import com.njuse.battlerankbackend.po.ApiCallRecord;
 import com.njuse.battlerankbackend.service.ApiCallService;
 import com.njuse.battlerankbackend.vo.ApiCallRecordVO;
@@ -18,6 +20,7 @@ public class ApiCallServiceImpl implements ApiCallService {
     @Autowired
     private RedisTemplate<String, ApiCallRecord> redisTemplate;
 
+    @RoleAuthorization(RoleEnum.ADMIN)
     @Override
     public List<ApiCallRecordVO> getApiUsage() {
         Set<ZSetOperations.TypedTuple<ApiCallRecord>> results = redisTemplate.opsForZSet().reverseRangeWithScores("api:call-count", 0, -1);
